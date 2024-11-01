@@ -1,7 +1,7 @@
-﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
+﻿using GithubPullRequestReviewer.PullRequestAPI.Contracts;
 using GithubPullRequestReviewer.Domain.Models;
 
-namespace GithubPullRequestReviewer.BusinessLogic.Services
+namespace GithubPullRequestReviewer.PullRequestAPI.Services
 {
     public class GithubProvider : IGithubProvider
     {
@@ -12,19 +12,16 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
             _githubClient = githubClient;
         }
 
-        public async Task<User> GetUserInfoByTokenAsync(string accessToken)
+        public async Task<User> GetUserInfoByTokenAsync()
         {
-            ArgumentNullException.ThrowIfNull(accessToken);
-            _githubClient.Credentials = new Octokit.Credentials(accessToken);
-
             var currentUser = await _githubClient.User.Current();
 
             return currentUser.ToDomain();
         }
 
-        public async Task<IReadOnlyList<Repository>> GetRepositoriesByTokenAsync(string accessToken)
+        public async Task<IReadOnlyList<Repository>> GetRepositoriesByTokenAsync()
         {
-            var currentUser = await GetUserInfoByTokenAsync(accessToken);
+            var currentUser = await GetUserInfoByTokenAsync();
             var repositories = await _githubClient.Repository.GetAllForUser(currentUser.Username);
 
             return repositories.Select(x => x.ToDomain()).ToList();

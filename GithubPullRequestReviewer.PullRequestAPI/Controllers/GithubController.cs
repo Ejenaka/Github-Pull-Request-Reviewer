@@ -1,6 +1,7 @@
-﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
+﻿using GithubPullRequestReviewer.PullRequestAPI.Contracts;
 using GithubPullRequestReviewer.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 {
@@ -14,17 +15,19 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         }
 
         [HttpGet]
-        [Route("user-info")]
-        public async Task<User> GetUserInfo([FromHeader] string accessToken)
+        [Route("user")]
+        [Authorize(AuthenticationSchemes = "GithuhUserAuthenticationScheme")]
+        public async Task<User> GetUserInfo()
         {
-            return await _githubProvider.GetUserInfoByTokenAsync(accessToken);
+            return await _githubProvider.GetUserInfoByTokenAsync();
         }
 
         [HttpGet]
         [Route("repositories")]
-        public async Task<IReadOnlyList<Repository>> GetUserRepositories([FromHeader] string accessToken)
+        [Authorize(AuthenticationSchemes = "GithuhUserAuthenticationScheme")]
+        public async Task<IReadOnlyList<Repository>> GetUserRepositories()
         {
-            return await _githubProvider.GetRepositoriesByTokenAsync(accessToken);
+            return await _githubProvider.GetRepositoriesByTokenAsync();
         }
     }
 }

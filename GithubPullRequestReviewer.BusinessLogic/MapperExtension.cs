@@ -1,9 +1,22 @@
-﻿using GithubPullRequestReviewer.Domain.Models;
+﻿using GithubPullRequestReviewer.Domain.Enums;
+using GithubPullRequestReviewer.Domain.Models;
 
-namespace GithubPullRequestReviewer.BusinessLogic
+namespace GithubPullRequestReviewer.PullRequestAPI
 {
     public static class MapperExtension
     {
+        public static PullRequest ToDomain(this Octokit.PullRequest pullRequest) =>
+            new PullRequest
+            {
+                Id = pullRequest.Id,
+                Number = pullRequest.Number,
+                Name = pullRequest.Title,
+                Status = (PullRequestStatus)pullRequest.State.Value,
+                LastModifiedDate = pullRequest.UpdatedAt.DateTime,
+                DiffUrl = pullRequest.DiffUrl,
+                Creator = pullRequest.User.ToDomain(),
+            };
+
         public static Repository ToDomain(this Octokit.Repository repository) =>
             new Repository
             {

@@ -1,8 +1,8 @@
 ﻿namespace GithubPullRequestReviewer.Domain.Enums
 {
-    public enum PullRequestStatus
+    public enum IssueStatus
     {
         Open,
-        Closed,
+        Resolved
     }
 }

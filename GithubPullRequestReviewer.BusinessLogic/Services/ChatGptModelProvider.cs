@@ -1,7 +1,7 @@
-﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
+﻿using GithubPullRequestReviewer.PullRequestAPI.Contracts;
 using OpenAI.Chat;
 
-namespace GithubPullRequestReviewer.BusinessLogic.Services
+namespace GithubPullRequestReviewer.PullRequestAPI.Services
 {
     public class ChatGptModelProvider : IGenerativeModelProvider
     {

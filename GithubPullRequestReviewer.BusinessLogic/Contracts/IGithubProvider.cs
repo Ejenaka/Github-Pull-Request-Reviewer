@@ -1,10 +1,10 @@
 ﻿using GithubPullRequestReviewer.Domain.Models;
 
-namespace GithubPullRequestReviewer.BusinessLogic.Contracts
+namespace GithubPullRequestReviewer.PullRequestAPI.Contracts
 {
     public interface IGithubProvider
     {
-        Task<User> GetUserInfoByTokenAsync(string accessToken);
-        Task<IReadOnlyList<Repository>> GetRepositoriesByTokenAsync(string accessToken);
+        Task<User> GetUserInfoByTokenAsync();
+        Task<IReadOnlyList<Repository>> GetRepositoriesByTokenAsync();
     }
 }

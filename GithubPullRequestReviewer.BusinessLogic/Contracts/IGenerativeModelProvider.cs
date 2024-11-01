@@ -1,4 +1,4 @@
-﻿namespace GithubPullRequestReviewer.BusinessLogic.Contracts
+﻿namespace GithubPullRequestReviewer.PullRequestAPI.Contracts
 {
     public interface IGenerativeModelProvider
     {
