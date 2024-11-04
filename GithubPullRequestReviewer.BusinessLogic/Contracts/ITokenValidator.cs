@@ -1,5 +1,4 @@
-﻿
-namespace GithubPullRequestReviewer.PullRequestAPI.Services
+﻿namespace GithubPullRequestReviewer.BusinessLogic.Contracts
 {
     public interface ITokenValidator
     {

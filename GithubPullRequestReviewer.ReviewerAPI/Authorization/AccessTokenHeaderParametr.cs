@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Authorization
+namespace GithubPullRequestReviewer.ReviewerAPI.Authorization
 {
     public class AccessTokenHeaderParametr : IOperationFilter
     {

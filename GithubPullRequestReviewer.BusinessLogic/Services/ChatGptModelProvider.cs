@@ -9,10 +9,10 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Services
 
         public ChatGptModelProvider(string apiKey)
         {
-            _chatClient = new("gpt-4o-mini", apiKey);
+            _chatClient = new("gpt-4", apiKey);
         }
 
-        public async Task<string> SendPromptTextAsync(string text)
+        public async Task<string> SendTextAsync(string text)
         {
             var chatResult = await _chatClient.CompleteChatAsync(text);
 

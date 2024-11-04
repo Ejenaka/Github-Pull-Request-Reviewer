@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Authorization
+namespace GithubPullRequestReviewer.ReviewerAPI.Authorization
 {
     public class GithuhUserAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

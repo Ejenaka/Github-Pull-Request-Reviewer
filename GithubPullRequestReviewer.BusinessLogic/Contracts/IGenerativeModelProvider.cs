@@ -2,6 +2,6 @@
 {
     public interface IGenerativeModelProvider
     {
-        Task<string> SendPromptTextAsync(string text);
+        Task<string> SendTextAsync(string text);
     }
 }

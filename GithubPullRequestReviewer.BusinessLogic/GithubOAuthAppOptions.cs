@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Configuration
+namespace GithubPullRequestReviewer.BusinessLogic
 {
     public class GithubOAuthAppOptions
     {

@@ -1,12 +1,12 @@
-﻿using GithubPullRequestReviewer.PullRequestAPI.Configuration;
+﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using Microsoft.Extensions.Options;
 using Octokit;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Services
+namespace GithubPullRequestReviewer.BusinessLogic.Services
 {
     public class GithubTokenValidator : ITokenValidator
     {
-        private readonly Octokit.GitHubClient _githubClient;
+        private readonly GitHubClient _githubClient;
         private readonly IOptions<GithubOAuthAppOptions> _options;
 
         public GithubTokenValidator(GitHubClient githubClient, IOptions<GithubOAuthAppOptions> options)

@@ -3,13 +3,11 @@ using GithubPullRequestReviewer.PullRequestAPI.Services;
 using GithubPullRequestReviewer.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Octokit;
-using GithubPullRequestReviewer.PullRequestAPI.Configuration;
 using GithubPullRequestReviewer.PullRequestAPI.Authorization;
 using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using GithubPullRequestReviewer.BusinessLogic.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication;
+using GithubPullRequestReviewer.BusinessLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 

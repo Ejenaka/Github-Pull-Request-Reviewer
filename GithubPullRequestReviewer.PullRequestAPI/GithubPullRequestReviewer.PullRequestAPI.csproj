@@ -18,8 +18,4 @@
     <ProjectReference Include="..\GithubPullRequestReviewer.DataAccess\GithubPullRequestReviewer.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
 </Project>
