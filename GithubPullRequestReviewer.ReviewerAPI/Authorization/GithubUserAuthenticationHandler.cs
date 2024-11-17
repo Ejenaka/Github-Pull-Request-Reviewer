@@ -6,11 +6,11 @@ using System.Text.Encodings.Web;
 
 namespace GithubPullRequestReviewer.ReviewerAPI.Authorization
 {
-    public class GithuhUserAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class GithubUserAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly ITokenValidator _tokenValidator;
 
-        public GithuhUserAuthenticationHandler(
+        public GithubUserAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,

@@ -1,6 +1,6 @@
-﻿using GithubPullRequestReviewer.PullRequestAPI.Contracts;
-using GithubPullRequestReviewer.BusinessLogic.Contracts;
+﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using GithubPullRequestReviewer.Domain.Models;
+using GithubPullRequestReviewer.BusinessLogic;
 
 namespace GithubPullRequestReviewer.PullRequestAPI.Services
 {

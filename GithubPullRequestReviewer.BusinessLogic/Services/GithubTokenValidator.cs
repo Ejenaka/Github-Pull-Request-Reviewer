@@ -1,4 +1,5 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
+using GithubPullRequestReviewer.DataAccess.Options;
 using Microsoft.Extensions.Options;
 using Octokit;
 

@@ -1,4 +1,4 @@
-﻿using GithubPullRequestReviewer.PullRequestAPI.Contracts;
+﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using OpenAI.Chat;
 
 namespace GithubPullRequestReviewer.PullRequestAPI.Services
@@ -12,11 +12,16 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Services
             _chatClient = new("gpt-4", apiKey);
         }
 
-        public async Task<string> SendTextAsync(string text)
+        public async Task<string> SendMessageAsync(string text)
         {
             var chatResult = await _chatClient.CompleteChatAsync(text);
-
             return chatResult.Value.Content[0].Text;
+        }
+
+        public async Task<string> SendMessagesAsync(IEnumerable<ChatMessage> messages)
+        {
+            var chatResult = await _chatClient.CompleteChatAsync(messages);
+            return chatResult.Value.Content.Last().Text;
         }
     }
 }

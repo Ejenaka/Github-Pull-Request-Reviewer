@@ -1,6 +1,6 @@
-﻿namespace GithubPullRequestReviewer.Domain.Models
+﻿namespace GithubPullRequestReviewer.DataAccess.Responses
 {
-    public class ReviewResultItem
+    public class ReviewResultResponseItem
     {
         public string Description { get; set; }
         public string File { get; set; }

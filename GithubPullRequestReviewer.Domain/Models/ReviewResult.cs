@@ -2,10 +2,10 @@
 {
     public class ReviewResult
     {
-        public List<ReviewResultItem> Issues { get; set; }
-        public List<ReviewResultItem> Vulnerabilities { get; set; }
-        public List<ReviewResultItem> Optimization { get; set; }
-        public List<ReviewResultItem> Enhancements { get; set; }
-        public List<ReviewResultItem> BestPractices { get; set; }
+        public List<Recommendation> Issues { get; set; }
+        public List<Recommendation> Vulnerabilities { get; set; }
+        public List<Recommendation> Optimization { get; set; }
+        public List<Recommendation> Enhancements { get; set; }
+        public List<Recommendation> BestPractices { get; set; }
     }
 }

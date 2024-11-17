@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace GithubPullRequestReviewer.BusinessLogic
+﻿namespace GithubPullRequestReviewer.DataAccess.Options
 {
     public class GithubOAuthAppOptions
     {

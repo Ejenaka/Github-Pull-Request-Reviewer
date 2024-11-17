@@ -1,8 +1,8 @@
 ﻿namespace GithubPullRequestReviewer.BusinessLogic
 {
-    public static class PromptsForReview
+    public static class Prompts
     {
-        public static readonly string ReviewPromptTemplate = """
+        private static readonly string ReviewPromptTemplate = """
             I would like you to succinctly analyze the git diff of the pull request. Please strictly follow these rules:
             1. You must determine whether a piece of code needs to be changed. If a code section does not contain identifiable issues, vulnerabilities, optimizations, or enhancements, you should skip analysis for that section.
             2. If you find any places in code, which should be reworked, then you must determine a category of your analysis.
@@ -27,6 +27,24 @@
 
             %PR_DIFF%
             """;
+
+        public static readonly string CommentPrompt = """
+          You reviewed GitHub Pull Request and provided your analysis. You have received a comment from the user associated to your recommendation you gave on certain file.
+          I would like you to respond to a user’s comment on a pull request.
+          Please follow these rules to ensure a clear, professional, and constructive response:
+          1. Begin by acknowledging the user’s comment to show that their input is valued.
+          2. If the comment raises an issue or question, provide a concise explanation or clarification.
+          3. If the comment suggests a change or improvement:
+            A) Agree if the suggestion is valid and explain how it will be addressed.
+            B) Politely disagree if the suggestion is not feasible, providing reasons and possible alternatives.
+          4. Mention specific lines of code, files, or parts of the pull request related to the comment. Use line numbers or code snippets for clarity.
+          5. If further action is required, clearly state what you will do next.
+          6. Suggest alternatives or seek clarification if needed.
+          7. Keep the response polite and professional, even if you disagree with the comment.
+          """;
+
+        public static readonly string CommentPromptModelResponse =
+            "Of course! Provide me your commend and I will response you using my best analytical possibilities.";
 
         public static readonly string PullRequestTitlePlaceholder = "%PR_TITLE%";
         public static readonly string PullRequestDiffPlaceholder = "%PR_DIFF%";

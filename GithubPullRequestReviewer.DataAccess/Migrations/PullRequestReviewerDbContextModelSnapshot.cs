@@ -22,7 +22,7 @@ namespace GithubPullRequestReviewer.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.Comment", b =>
+            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.CommentEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,40 +30,26 @@ namespace GithubPullRequestReviewer.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int[]>("CodeLines")
-                        .HasColumnType("integer[]");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModifiedDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("ParentCommentId")
-                        .HasColumnType("integer");
+                    b.Property<bool>("IsFromUser")
+                        .HasColumnType("boolean");
 
-                    b.Property<int?>("PullRequestId")
+                    b.Property<int>("RecommendationId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Text")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCommentId");
-
-                    b.HasIndex("PullRequestId");
+                    b.HasIndex("RecommendationId");
 
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.PullRequest", b =>
+            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.RecommendationEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,124 +57,47 @@ namespace GithubPullRequestReviewer.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<int[]>("CodeLines")
+                        .HasColumnType("integer[]");
+
+                    b.Property<string>("Content")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastModifiedDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("FileName")
                         .HasColumnType("text");
 
-                    b.Property<int>("RepositoryId")
+                    b.Property<int>("PullRequestNumber")
                         .HasColumnType("integer");
+
+                    b.Property<long>("RepositoryId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RepositoryId");
-
-                    b.ToTable("PullRequests");
+                    b.ToTable("Recommendations");
                 });
 
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.PullRequestIssue", b =>
+            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.CommentEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("IssueType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("IssueTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PullRequestId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("PullRequestId");
-
-                    b.ToTable("PullRequestIssues");
-                });
-
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.Repository", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Repositories");
-                });
-
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.Comment", b =>
-                {
-                    b.HasOne("GithubPullRequestReviewer.DataAccess.Entities.Comment", "ParentComment")
-                        .WithMany()
-                        .HasForeignKey("ParentCommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GithubPullRequestReviewer.DataAccess.Entities.PullRequest", null)
+                    b.HasOne("GithubPullRequestReviewer.DataAccess.Entities.RecommendationEntity", "Recommendation")
                         .WithMany("Comments")
-                        .HasForeignKey("PullRequestId");
-
-                    b.Navigation("ParentComment");
-                });
-
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.PullRequest", b =>
-                {
-                    b.HasOne("GithubPullRequestReviewer.DataAccess.Entities.Repository", "Repository")
-                        .WithMany()
-                        .HasForeignKey("RepositoryId")
+                        .HasForeignKey("RecommendationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Repository");
+                    b.Navigation("Recommendation");
                 });
 
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.PullRequestIssue", b =>
-                {
-                    b.HasOne("GithubPullRequestReviewer.DataAccess.Entities.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GithubPullRequestReviewer.DataAccess.Entities.PullRequest", "PullRequest")
-                        .WithMany()
-                        .HasForeignKey("PullRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("PullRequest");
-                });
-
-            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.PullRequest", b =>
+            modelBuilder.Entity("GithubPullRequestReviewer.DataAccess.Entities.RecommendationEntity", b =>
                 {
                     b.Navigation("Comments");
                 });

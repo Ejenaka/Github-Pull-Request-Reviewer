@@ -5,10 +5,8 @@ namespace GithubPullRequestReviewer.DataAccess
 {
     public class PullRequestReviewerDbContext : DbContext
     {
-        public DbSet<PullRequestEntity> PullRequests { get; set; }
-        public DbSet<PullRequestIssueEntity> PullRequestIssues { get; set; }
+        public DbSet<RecommendationEntity> Recommendations { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
-        public DbSet<RepositoryEntity> Repositories { get; set; }
 
         public PullRequestReviewerDbContext() : base() { }
         public PullRequestReviewerDbContext(DbContextOptions<PullRequestReviewerDbContext> options) : base(options) { }

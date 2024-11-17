@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
@@ -10,6 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Octokit.Webhooks.AspNetCore" Version="2.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GithubPullRequestReviewer.BusinessLogic\GithubPullRequestReviewer.BusinessLogic.csproj" />
+    <ProjectReference Include="..\GithubPullRequestReviewer.DataAccess\GithubPullRequestReviewer.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

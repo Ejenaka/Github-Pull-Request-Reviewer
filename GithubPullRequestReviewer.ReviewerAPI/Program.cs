@@ -1,4 +1,3 @@
-using GithubPullRequestReviewer.PullRequestAPI.Contracts;
 using GithubPullRequestReviewer.PullRequestAPI.Services;
 using GithubPullRequestReviewer.DataAccess;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,9 @@ using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using GithubPullRequestReviewer.BusinessLogic.Services;
 using Microsoft.AspNetCore.Authentication;
 using GithubPullRequestReviewer.BusinessLogic;
+using GithubPullRequestReviewer.DataAccess.ApiClients;
+using GithubPullRequestReviewer.DataAccess.Contracts;
+using GithubPullRequestReviewer.DataAccess.Options;
 using GithubPullRequestReviewer.ReviewerAPI.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,17 +21,23 @@ builder.Services.AddDbContext<PullRequestReviewerDbContext>(options =>
 builder.Services.AddScoped(_ => new GitHubClient(new ProductHeaderValue("pull-request-reviewer")));
 builder.Services.AddScoped<ITokenService, GithubTokenService>();
 builder.Services.AddScoped<ITokenValidator, GithubTokenValidator>();
-builder.Services.AddTransient<IGithubProvider, GithubProvider>();
 builder.Services.AddTransient<IPullRequestService, PullRequestService>();
 builder.Services.AddTransient<IPullRequestReviewer, PullRequestReviewer>();
 // Mock for testing purposes
-//builder.Services.AddTransient<IPullRequestReviewer, PullRequestReviewerMock>();
-builder.Services.AddTransient<IGenerativeModelProvider, ChatGptModelProvider>(_
-    => new ChatGptModelProvider(builder.Configuration["OpenAI:ApiKey"]));
+builder.Services.AddTransient<IPullRequestReviewer, PullRequestReviewerMock>();
+// builder.Services.AddTransient<IGenerativeModelProvider, ChatGptModelProvider>(_
+//     => new ChatGptModelProvider(builder.Configuration["OpenAI:ApiKey"]));
+
+builder.Services.AddTransient<IPullRequestApiClient, PullRequestApiClient>(c =>
+    new PullRequestApiClient(builder.Configuration.GetSection("ApiBaseUrls")["PullRequestApi"]));
+builder.Services.AddTransient<IReviewApiClient, ReviewApiClient>(c =>
+    new ReviewApiClient(builder.Configuration.GetSection("ApiBaseUrls")["PullRequestApi"]));
+builder.Services.AddTransient<ICommentApiClient, CommentApiClient>(c =>
+    new CommentApiClient(builder.Configuration.GetSection("ApiBaseUrls")["PullRequestApi"]));
 
 builder.Services
-    .AddAuthentication(" GithuhUserAuthenticationScheme")
-    .AddScheme<AuthenticationSchemeOptions, GithuhUserAuthenticationHandler>("GithuhUserAuthenticationScheme", options => { });
+    .AddAuthentication("GithubUserAuthenticationScheme")
+    .AddScheme<AuthenticationSchemeOptions, GithubUserAuthenticationHandler>("GithubUserAuthenticationScheme", options => { });
 
 builder.Services.AddAuthorization();
 

@@ -1,6 +1,6 @@
 ﻿using GithubPullRequestReviewer.Domain.Models;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Contracts
+namespace GithubPullRequestReviewer.BusinessLogic.Contracts
 {
     public interface IPullRequestService
     {
