@@ -1,0 +1,21 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened class="sidenav">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/repositories">
+          <mat-icon>folder</mat-icon>
+          <span>Repositories</span>
+        </a>
+        <a mat-list-item routerLink="/pull-requests">
+          <mat-icon>merge_type</mat-icon>
+          <span>Pull Requests</span>
+        </a>
+        <a mat-list-item routerLink="/code-analysis">
+          <mat-icon>insights</mat-icon>
+          <span>Code Analysis</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

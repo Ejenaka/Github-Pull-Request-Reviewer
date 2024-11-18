@@ -1,0 +1,20 @@
+.project-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+.spacer {
+    flex: 1 1 auto;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+.user-name {
+    font-size: 16px;
+}
