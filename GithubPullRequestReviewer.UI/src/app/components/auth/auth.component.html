@@ -1,0 +1,19 @@
+<div class="auth-container">
+  <div class="project-info">
+    <h1 class="project-title">AI Reviewer 💡</h1>
+    <div class="decription-container">
+      <h2 class="project-description">Let AI Model Review your Pull Requests</h2>
+      <mat-icon class="project-icon">rocket_launch</mat-icon>
+    </div>
+  </div>
+  <div class="sign-in-container">
+    <button [disabled]="isLoading" mat-raised-button color="primary" (click)="loginWithGitHub()">
+      <mat-icon class="project-icon">login</mat-icon>
+      Sing in via GitHub 
+    </button>
+    @if (isLoading) {
+      <mat-spinner [diameter]="30"></mat-spinner>
+    }
+  </div>
+
+</div>

@@ -1,0 +1,38 @@
+.project-info {
+    margin-bottom: 20px;
+}
+.project-icon {
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+}
+.project-title {
+    font-size: 34px;
+    margin: 0;
+    text-align: center;
+}
+.project-description {
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+}
+.decription-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    vertical-align: top;
+    align-items: center;
+}
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    //gap: 50px;
+    justify-content: space-between;
+}
+.sign-in-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
