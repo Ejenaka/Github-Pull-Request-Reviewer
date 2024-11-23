@@ -1,0 +1,11 @@
+<div class="repositories-container">
+    @for (pullRequest of pullRequests; track pullRequest.id) {
+        <mat-card class="repository-card" [ngClass]="{ 'repository-configured' : false }" appearance="outlined">
+            <mat-card-content>
+                <div class="card-content">
+                    {{ pullRequest.name }}
+                </div>
+            </mat-card-content>
+        </mat-card>
+    }
+</div>

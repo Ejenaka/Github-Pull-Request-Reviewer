@@ -3,9 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { User } from '../../api/models';
-import { UserService } from '../../api/services';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../api/pull-request/services';
+import { User } from '../../api/pull-request/models';
 
 @Component({
   selector: 'app-header',

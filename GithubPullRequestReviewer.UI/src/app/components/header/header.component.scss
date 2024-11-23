@@ -1,6 +1,7 @@
 .project-title {
     font-size: 20px;
     font-weight: bold;
+    padding-left: 25px;
 }
 .spacer {
     flex: 1 1 auto;
@@ -9,6 +10,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    padding-right: 25px;
 }
 .user-avatar {
     width: 32px;
@@ -17,4 +19,7 @@
 }
 .user-name {
     font-size: 16px;
+}
+.header {
+    background-color: #fdf7ff;
 }

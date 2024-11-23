@@ -1,0 +1,18 @@
+<div class="repositories-container">
+    @for (repositoryWithHook of repositoriesWithHook; track repositoryWithHook.repository.id) {
+        <mat-card class="repository-card" [ngClass]="{ 'repository-configured' : repositoryWithHook.configured }" appearance="outlined">
+            <mat-card-content>
+                <div class="card-content">
+                    {{ repositoryWithHook.repository.name }}
+                    <mat-slide-toggle
+                        id="{{repositoryWithHook.repository.id}}"
+                        labelPosition="before"
+                        [checked]="!!repositoryWithHook.webhook"
+                        (change)="onConfigureToggleChanged($event)">
+                        {{ repositoryWithHook.configured ? 'Configured' : 'Not Configured' }}
+                    </mat-slide-toggle>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    }
+</div>

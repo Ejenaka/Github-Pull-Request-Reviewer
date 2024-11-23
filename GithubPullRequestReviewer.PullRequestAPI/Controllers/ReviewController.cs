@@ -19,7 +19,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpGet]
         [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}/review")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
 
         public async Task<ReviewResult> GetPullRequestReviewResultAsync(long repositoryId, int pullRequestNumber)
         {
@@ -28,7 +28,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpPost]
         [Route("reviews")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task CreatePullRequestReviewAsync([FromBody] CreateReviewDto createReviewDto)
         {
             await _reviewService.CreatePullRequestReviewAsync(createReviewDto);
@@ -36,7 +36,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpPatch]
         [Route("reviews")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task UpdatePullRequestRecommendationAsync([FromBody] Recommendation recommendation)
         {
             await _reviewService.UpdatePullRequestRecommendationAsync(recommendation);

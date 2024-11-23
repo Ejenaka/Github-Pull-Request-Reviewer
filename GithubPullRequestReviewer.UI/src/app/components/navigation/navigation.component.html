@@ -1,21 +1,22 @@
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" opened class="sidenav">
-      <mat-nav-list>
-        <a mat-list-item routerLink="/repositories">
+      <mat-nav-list class="sidenav-list">
+        <a (click)="navigateToPage('repositories')" mat-list-item>
           <mat-icon>folder</mat-icon>
           <span>Repositories</span>
         </a>
-        <a mat-list-item routerLink="/pull-requests">
+        <a (click)="navigateToPage('pull-requests')" mat-list-item>
           <mat-icon>merge_type</mat-icon>
           <span>Pull Requests</span>
         </a>
-        <a mat-list-item routerLink="/code-analysis">
+        <a (click)="navigateToPage('code-analysis')" mat-list-item>
           <mat-icon>insights</mat-icon>
           <span>Code Analysis</span>
         </a>
       </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content class="sidenav-content">
+      <h1 class="sidenav-content-header">{{ pageTitle }}</h1>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

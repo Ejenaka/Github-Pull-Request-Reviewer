@@ -18,7 +18,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpGet]
         [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task<PullRequest> GetPullRequestAsync(long repositoryId, int pullRequestNumber)
         {
             return await _pullRequestService.GetPullRequestAsync(repositoryId, pullRequestNumber);
@@ -26,7 +26,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpGet]
         [Route("repositories/{repositoryId}/pull-requests")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task<IList<PullRequest>> GetAllPullRequestForRepositoriesAsync(long repositoryId)
         {
             return await _pullRequestService.GetAllPullRequestsForRepositoryAsync(repositoryId);
@@ -34,7 +34,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpGet]
         [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task<string> GetPullRequestDiffContentAsync(long repositoryId, int pullRequestNumber)
         {
             return await _pullRequestService.GetPullRequestDiffContentAsync(repositoryId, pullRequestNumber);

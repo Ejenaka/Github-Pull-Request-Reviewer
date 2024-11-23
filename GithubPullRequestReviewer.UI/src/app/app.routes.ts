@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { authGuard } from './guards/auth.guard';
 import { HeaderComponent } from './components/header/header.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { RepositoriesComponent } from './components/repositories/repositories.component';
+import { PullRequestsComponent } from './components/pull-requests/pull-requests.component';
 
 export const routes: Routes = [
   { path: "auth", component: AuthComponent },
@@ -13,7 +15,14 @@ export const routes: Routes = [
     canActivateChild: [authGuard],
     children: [
       { path: '', component: HeaderComponent, outlet: 'header' },
-      { path: '', component: NavigationComponent }
+      {
+        path: '',
+        component: NavigationComponent,
+        children: [
+          { path: 'repositories', component: RepositoriesComponent },
+          { path: 'pull-requests', component: PullRequestsComponent },
+        ]
+      },
     ]
   },
   { path: '**', redirectTo: '' }

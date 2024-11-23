@@ -19,7 +19,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpGet]
         [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}/review/comments")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task<IList<Comment>> GetCommentsForPullRequestAsync(long repositoryId, int pullRequestNumber)
         {
             return await _commentService.GetCommentsForPullRequestAsync(repositoryId, pullRequestNumber);
@@ -27,7 +27,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         
         [HttpGet]
         [Route("recommendations/{recommendationId:int}/comments")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task<IList<Comment>> GetCommentsForRecommendationAsync(int recommendationId)
         {
             return await _commentService.GetCommentsForRecommendationAsync(recommendationId);
@@ -35,7 +35,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 
         [HttpPost]
         [Route("comments")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationHandler")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task CreateCommentForRecommendationAsync([FromBody] CreateCommentRequest createCommentRequest)
         {
             await _commentService.CreateCommentForRecommendationAsync(

@@ -2,20 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Route, Router, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UserService } from '../../api/services';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { TOKEN_STORAGE_KEY } from '../../common/constants';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserService } from '../../api/pull-request/services';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
   imports: [
-    RouterOutlet,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']

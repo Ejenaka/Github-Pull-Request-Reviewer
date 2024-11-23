@@ -51,4 +51,9 @@ app.MapControllers();
 
 app.MapGitHubWebhooks();
 
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
 app.Run();
