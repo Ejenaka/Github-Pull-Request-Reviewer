@@ -8,7 +8,7 @@ namespace GithubPullRequestReviewer.BusinessLogic
 {
     public static class MapperExtension
     {
-        public static PullRequest ToDomain(this Octokit.PullRequest pullRequest) =>
+        public static PullRequest ToDomain(this Octokit.PullRequest pullRequest, Repository repository) =>
             new PullRequest
             {
                 Id = pullRequest.Id,
@@ -18,6 +18,7 @@ namespace GithubPullRequestReviewer.BusinessLogic
                 LastModifiedDate = pullRequest.UpdatedAt.DateTime,
                 DiffUrl = pullRequest.DiffUrl,
                 Creator = pullRequest.User.ToDomain(),
+                Repository = repository,
             };
 
         public static Repository ToDomain(this Octokit.Repository repository) =>

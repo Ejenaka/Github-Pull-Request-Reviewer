@@ -8,8 +8,9 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { Recommendation } from '../../models/recommendation';
 
-export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params {
+export interface ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Plain$Params {
   repositoryId: number;
   pullRequestNumber: number;
 
@@ -19,8 +20,8 @@ export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNu
   access_token: string;
 }
 
-export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain(http: HttpClient, rootUrl: string, params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-  const rb = new RequestBuilder(rootUrl, apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain.PATH, 'get');
+export function apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Plain(http: HttpClient, rootUrl: string, params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Recommendation>>> {
+  const rb = new RequestBuilder(rootUrl, apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Plain.PATH, 'get');
   if (params) {
     rb.path('repositoryId', params.repositoryId, {});
     rb.path('pullRequestNumber', params.pullRequestNumber, {});
@@ -32,9 +33,9 @@ export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNum
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return r as StrictHttpResponse<Array<Recommendation>>;
     })
   );
 }
 
-apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain.PATH = '/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff';
+apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Plain.PATH = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/recommendations';

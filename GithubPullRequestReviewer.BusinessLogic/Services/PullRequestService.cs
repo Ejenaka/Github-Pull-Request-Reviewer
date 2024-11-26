@@ -1,30 +1,34 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
-using GithubPullRequestReviewer.Domain.Models;
-using GithubPullRequestReviewer.BusinessLogic;
+using Octokit;
+using PullRequest = GithubPullRequestReviewer.Domain.Models.PullRequest;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Services
+namespace GithubPullRequestReviewer.BusinessLogic.Services
 {
     public class PullRequestService : IPullRequestService
     {
         private Octokit.GitHubClient _githubClient;
+        private IRepositoryService _repositoryService;
 
-        public PullRequestService(Octokit.GitHubClient githubClient)
+        public PullRequestService(Octokit.GitHubClient githubClient, IRepositoryService repositoryService)
         {
             _githubClient = githubClient;
+            _repositoryService = repositoryService;
         }
 
         public async Task<PullRequest> GetPullRequestAsync(long repositoryId, int pullRequestNumber)
         {
             var pullRequest = await _githubClient.PullRequest.Get(repositoryId, pullRequestNumber);
+            var repository = await _repositoryService.GetRepositoryById(repositoryId);
 
-            return pullRequest.ToDomain();
+            return pullRequest.ToDomain(repository);
         }
 
         public async Task<IList<PullRequest>> GetAllPullRequestsForRepositoryAsync(long repositoryId)
         {
             var pullRequests = await _githubClient.PullRequest.GetAllForRepository(repositoryId);
+            var repository = await _repositoryService.GetRepositoryById(repositoryId);
 
-            return pullRequests.Select(p => p.ToDomain()).ToList();
+            return pullRequests.Select(p => p.ToDomain(repository)).ToList();
         }
 
         public async Task<string> GetPullRequestDiffContentAsync(long repositoryId, int pullRequestNumber)
@@ -41,6 +45,11 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Services
         public Task CreatePullRequestAsync(string githubPullRequestId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<PullRequestFile>> GetPullRequestFilesAsync(long repositoryId, int pullRequestNumber)
+        {
+            return await _githubClient.Repository.PullRequest.Files(repositoryId, pullRequestNumber);
         }
     }
 }

@@ -20,6 +20,11 @@
             TEXT in uppercase between % describes what you should input there.
             Each array may contain multiple elements or remain empty.
             Ensure that the JSON output is valid to facilitate structured parsing and that it matches the provided format exactly.
+            
+            To calculate 'beginsAtCodeLine' and 'endsAtCodeLine' you must analyze diff chunk headers
+            Each chunk is prepended by a header enclosed within @@ symbols in git diff. The content of the header is a summary of changes made to the file.
+            Example diff chunk header: @@ -34,6 +34,8 @@
+            In this header example, 6 lines have been extracted starting from line number 34. Additionally, 8 lines have been added starting at line number 34.
             -------------------
 
             Pull Request Title: %PR_TITLE%
@@ -29,7 +34,8 @@
             """;
 
         public static readonly string CommentPrompt = """
-          You reviewed GitHub Pull Request and provided your analysis. You have received a comment from the user associated to your recommendation you gave on certain file.
+          You reviewed GitHub Pull Request and provided your analysis.
+          You have received a comment from the user associated to your recommendation you gave on certain file.
           I would like you to respond to a user’s comment on a pull request.
           Please follow these rules to ensure a clear, professional, and constructive response:
           1. Begin by acknowledging the user’s comment to show that their input is valued.
@@ -46,15 +52,36 @@
         public static readonly string CommentPromptModelResponse =
             "Of course! Provide me your commend and I will response you using my best analytical possibilities.";
 
+        public static readonly string CommentRequestTemplate =
+            """
+            Your review information for particular file:
+            File name: %FILE NAME%
+            Recommendation content:
+            %RECOMMENDATION%
+            
+            User comment:
+            %COMMENT%
+            """;
+
         public static readonly string PullRequestTitlePlaceholder = "%PR_TITLE%";
         public static readonly string PullRequestDiffPlaceholder = "%PR_DIFF%";
+        public static readonly string FileNamePlaceholder = "%FILE NAME%";
+        public static readonly string RecommendationContentPlaceholder = "%RECOMMENDATION%";
+        public static readonly string CommentPlaceholder = "%COMMENT%";
 
         public static string BuildPromptForReview(string pullRequestTitle, string pullRequestDiff)
         {
-
             return ReviewPromptTemplate
                 .Replace(PullRequestTitlePlaceholder, pullRequestTitle)
                 .Replace(PullRequestDiffPlaceholder, pullRequestDiff);
+        }
+
+        public static string BuildCommentRequest(string comment, string fileName, string recommendationContent)
+        {
+            return CommentRequestTemplate
+                .Replace(FileNamePlaceholder, fileName)
+                .Replace(CommentPlaceholder, comment)
+                .Replace(RecommendationContentPlaceholder, recommendationContent);
         }
     }
 }

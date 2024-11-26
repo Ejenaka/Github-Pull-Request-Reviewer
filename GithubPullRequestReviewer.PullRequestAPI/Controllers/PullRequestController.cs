@@ -1,12 +1,13 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
-using GithubPullRequestReviewer.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Octokit;
+using PullRequest = GithubPullRequestReviewer.Domain.Models.PullRequest;
 
 namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api")]
     public class PullRequestController : Controller
     {
         private readonly IPullRequestService _pullRequestService;
@@ -38,6 +39,14 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         public async Task<string> GetPullRequestDiffContentAsync(long repositoryId, int pullRequestNumber)
         {
             return await _pullRequestService.GetPullRequestDiffContentAsync(repositoryId, pullRequestNumber);
+        }
+
+        [HttpGet]
+        [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}/files")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
+        public async Task<IEnumerable<PullRequestFile>> GetPullRequestFileContentAsync(long repositoryId, int pullRequestNumber)
+        {
+            return await _pullRequestService.GetPullRequestFilesAsync(repositoryId, pullRequestNumber);
         }
     }
 }

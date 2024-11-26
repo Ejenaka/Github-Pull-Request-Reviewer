@@ -7,7 +7,9 @@ using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using GithubPullRequestReviewer.BusinessLogic.Services;
 using Microsoft.AspNetCore.Authentication;
 using GithubPullRequestReviewer.BusinessLogic;
+using GithubPullRequestReviewer.DataAccess.Contracts;
 using GithubPullRequestReviewer.DataAccess.Options;
+using GithubPullRequestReviewer.DataAccess.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,6 @@ builder.Services.AddDbContext<PullRequestReviewerDbContext>(options =>
 
 builder.Services.AddScoped(_ => new GitHubClient(new ProductHeaderValue("pull-request-reviewer")));
 builder.Services.AddScoped<ITokenService, GithubTokenService>();
-builder.Services.AddScoped<ITokenValidator, GithubTokenValidator>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRepositoryService, RepositoryService>();
 builder.Services.AddTransient<IPullRequestService, PullRequestService>();
@@ -40,6 +41,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

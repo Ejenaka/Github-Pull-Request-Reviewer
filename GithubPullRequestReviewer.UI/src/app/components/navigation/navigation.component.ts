@@ -27,10 +27,12 @@ export class NavigationComponent {
     if (pagePath === 'repositories') {
       this.pageTitle = 'Repositories';
       this.router.navigate(['repositories']);
-    }
-    else if (pagePath === 'pull-requests') {
+    } else if (pagePath === 'pull-requests') {
       this.pageTitle = 'Pull Requests';
       this.router.navigate(['pull-requests']);
+    } else if (pagePath === 'code-analysis') {
+      this.pageTitle = 'Code Analysis';
+      this.router.navigate(['code-analysis']);
     }
   }
 }

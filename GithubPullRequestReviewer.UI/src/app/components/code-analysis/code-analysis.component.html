@@ -1,0 +1,35 @@
+<div class="code-analysis-container">
+    <form class="selections">
+        <mat-form-field>
+            <mat-label>Repository</mat-label>
+            <mat-select (selectionChange)="selectedRepository.set($event.value)">
+                @for (repository of repositories; track repository.id) {
+                  <mat-option [value]="repository">{{repository.name}}</mat-option>
+                }
+              </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Pull Request</mat-label>
+            <mat-select (selectionChange)="selectedPullRequest.set($event.value)">
+                @for (pr of pullRequests; track pr.number) {
+                  <mat-option [value]="pr">{{pr.name}}</mat-option>
+                }
+              </mat-select>
+        </mat-form-field>
+    </form>
+    <div class="code-analysis" *ngIf="selectedRepository() && selectedPullRequest()">
+        <h4><b>Pull Request {{ selectedPullRequest().number }}</b>: <i>{{ selectedPullRequest().name }}</i></h4>
+        <div class="code-analysis-content">
+            @for (recommendation of recommendations; track recommendation.id) {
+                <mat-card>
+                    {{ recommendation.content }}
+                    <pre>
+                        <code [highlightAuto]="getFileContentFromFileContents(recommendation.repositoryId, recommendation.fileName) | async" lineNumbers ></code>
+                    </pre>
+                </mat-card>
+            }
+        </div>
+    </div>
+</div>
+
+

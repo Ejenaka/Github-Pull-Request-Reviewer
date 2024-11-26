@@ -10,7 +10,7 @@ import { RequestBuilder } from '../../request-builder';
 
 import { PullRequest } from '../../models/pull-request';
 
-export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params {
+export interface ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params {
   repositoryId: number;
   pullRequestNumber: number;
 
@@ -20,8 +20,8 @@ export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNu
   access_token: string;
 }
 
-export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain(http: HttpClient, rootUrl: string, params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
-  const rb = new RequestBuilder(rootUrl, apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain.PATH, 'get');
+export function apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain(http: HttpClient, rootUrl: string, params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
+  const rb = new RequestBuilder(rootUrl, apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain.PATH, 'get');
   if (params) {
     rb.path('repositoryId', params.repositoryId, {});
     rb.path('pullRequestNumber', params.pullRequestNumber, {});
@@ -38,4 +38,4 @@ export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNum
   );
 }
 
-apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain.PATH = '/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}';
+apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain.PATH = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}';

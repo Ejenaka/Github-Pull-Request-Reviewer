@@ -172,7 +172,7 @@
         }
       }
     },
-    "/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}": {
+    "/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}": {
       "get": {
         "tags": [
           "PullRequest"
@@ -230,7 +230,7 @@
         }
       }
     },
-    "/api/PullRequest/repositories/{repositoryId}/pull-requests": {
+    "/api/repositories/{repositoryId}/pull-requests": {
       "get": {
         "tags": [
           "PullRequest"
@@ -288,7 +288,7 @@
         }
       }
     },
-    "/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff": {
+    "/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff": {
       "get": {
         "tags": [
           "PullRequest"
@@ -339,6 +339,73 @@
               "text/json": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/files": {
+      "get": {
+        "tags": [
+          "PullRequest"
+        ],
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pullRequestNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "GitHub User Access Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PullRequestFile"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PullRequestFile"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PullRequestFile"
+                  }
                 }
               }
             }
@@ -397,6 +464,122 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ReviewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/recommendations": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pullRequestNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "GitHub User Access Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recommendation"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recommendation"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recommendation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recommendations/{recommendationId}": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "parameters": [
+          {
+            "name": "recommendationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "GitHub User Access Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendation"
                 }
               }
             }
@@ -806,6 +989,70 @@
           },
           "creator": {
             "$ref": "#/components/schemas/User"
+          },
+          "repository": {
+            "$ref": "#/components/schemas/Repository"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PullRequestFile": {
+        "type": "object",
+        "properties": {
+          "sha": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "additions": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "deletions": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "changes": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "blobUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "rawUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "contentsUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "patch": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "previousFileName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false

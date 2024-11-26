@@ -6,7 +6,7 @@ namespace GithubPullRequestReviewer.DataAccess.ApiClients
 {
     public class CommentApiClient : BaseApiClient, ICommentApiClient
     {
-        public CommentApiClient(string clientUrl) : base(clientUrl) { }
+        public CommentApiClient(string clientUrl, ITokenService gitHubTokenService) : base(clientUrl, gitHubTokenService) { }
 
         public async Task<IList<Comment>> GetCommentsForRecommendationAsync(int recommendationId)
         {

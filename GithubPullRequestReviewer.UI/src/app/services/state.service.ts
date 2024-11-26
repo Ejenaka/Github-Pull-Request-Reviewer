@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { RepositoryState } from '../models/repository-state';
+import { RepositoryModel } from '../models/repository-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateService {
 
-  public repositories: RepositoryState[] = [];
+  public repositories: RepositoryModel[] = [];
 
   constructor() { }
 }

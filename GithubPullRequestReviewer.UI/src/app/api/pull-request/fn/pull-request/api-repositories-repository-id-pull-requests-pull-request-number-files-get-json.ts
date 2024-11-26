@@ -8,8 +8,9 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { PullRequestFile } from '../../models/pull-request-file';
 
-export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params {
+export interface ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Params {
   repositoryId: number;
   pullRequestNumber: number;
 
@@ -19,8 +20,8 @@ export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNu
   access_token: string;
 }
 
-export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json(http: HttpClient, rootUrl: string, params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-  const rb = new RequestBuilder(rootUrl, apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json.PATH, 'get');
+export function apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json(http: HttpClient, rootUrl: string, params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequestFile>>> {
+  const rb = new RequestBuilder(rootUrl, apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json.PATH, 'get');
   if (params) {
     rb.path('repositoryId', params.repositoryId, {});
     rb.path('pullRequestNumber', params.pullRequestNumber, {});
@@ -32,9 +33,9 @@ export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNum
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return r as StrictHttpResponse<Array<PullRequestFile>>;
     })
   );
 }
 
-apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json.PATH = '/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff';
+apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json.PATH = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/files';

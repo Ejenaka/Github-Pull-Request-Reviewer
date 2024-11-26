@@ -4,13 +4,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthService } from '../../services/auth.service';
 import { Repository } from '../../api/pull-request/models';
-import { UserService } from '../../api/pull-request/services';
 import { GithubWebhookService } from '../../api/event-handler/services';
-import { RepositoryHook } from '../../api/event-handler/models';
-import { forkJoin, map, of, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { RepositoryState } from '../../models/repository-state';
+import { RepositoryModel } from '../../models/repository-model';
 import { StateService } from '../../services/state.service';
+import { ApiService } from '../../services/api.service';
 
 
 @Component({
@@ -27,29 +25,17 @@ import { StateService } from '../../services/state.service';
 })
 export class RepositoriesComponent implements OnInit {
   repositories: Repository[];
-  repositoriesWithHook: RepositoryState[];
+  repositoriesWithHook: RepositoryModel[];
 
   constructor(
-    private readonly userApiService: UserService,
+    private readonly apiService: ApiService,
     private readonly webhookApiService: GithubWebhookService,
     private readonly authService: AuthService,
     private readonly stateService: StateService,
     private readonly cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.userApiService.apiUsersCurrentRepositoriesGet$Json({ access_token: this.authService.getAccessToken() })
-      .pipe(
-        switchMap(repos => {
-          const hooksRequests = repos.map(repo =>
-            this.webhookApiService.apiRepositoriesRepositoryIdGithubWebhooksGet$Json({ repositoryId: repo.id as number, access_token: this.authService.getAccessToken() })
-              .pipe(map(hooks => ({
-                repository: repo,
-                webhook: hooks.find(x => x?.config!['url'].includes('api/github/webhooks')),
-                configured: !!hooks.find(x => x?.config!['url'].includes('api/github/webhooks'))
-              }) as RepositoryState))
-          );
-          return forkJoin(hooksRequests);
-        }))
+    this.apiService.getUserRepositories()
       .subscribe(repos => {
         this.repositoriesWithHook = repos.sort((a, b) => +!!b.webhook - +!!a.webhook);
         this.stateService.repositories = this.repositoriesWithHook;

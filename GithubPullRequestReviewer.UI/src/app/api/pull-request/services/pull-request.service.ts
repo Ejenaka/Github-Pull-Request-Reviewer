@@ -11,19 +11,24 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-get-json';
-import { ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Params } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-get-json';
-import { apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-get-plain';
-import { ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Params } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-get-plain';
-import { apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-diff-get-json';
-import { ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-diff-get-json';
-import { apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-diff-get-plain';
-import { ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-diff-get-plain';
-import { apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-get-json';
-import { ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-get-json';
-import { apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-get-plain';
-import { ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params } from '../fn/pull-request/api-pull-request-repositories-repository-id-pull-requests-pull-request-number-get-plain';
+import { apiRepositoriesRepositoryIdPullRequestsGet$Json } from '../fn/pull-request/api-repositories-repository-id-pull-requests-get-json';
+import { ApiRepositoriesRepositoryIdPullRequestsGet$Json$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-get-json';
+import { apiRepositoriesRepositoryIdPullRequestsGet$Plain } from '../fn/pull-request/api-repositories-repository-id-pull-requests-get-plain';
+import { ApiRepositoriesRepositoryIdPullRequestsGet$Plain$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-get-plain';
+import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-diff-get-json';
+import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-diff-get-json';
+import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-diff-get-plain';
+import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-diff-get-plain';
+import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-files-get-json';
+import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-files-get-json';
+import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-files-get-plain';
+import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-files-get-plain';
+import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-get-json';
+import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-get-json';
+import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-get-plain';
+import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params } from '../fn/pull-request/api-repositories-repository-id-pull-requests-pull-request-number-get-plain';
 import { PullRequest } from '../models/pull-request';
+import { PullRequestFile } from '../models/pull-request-file';
 
 @Injectable({ providedIn: 'root' })
 export class PullRequestService extends BaseService {
@@ -31,144 +36,191 @@ export class PullRequestService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet()` */
-  static readonly ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGetPath = '/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}';
+  /** Path part for operation `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet()` */
+  static readonly ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGetPath = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain()` instead.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Response(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
-    return apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain(this.http, this.rootUrl, params, context);
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Response(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
+    return apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params, context?: HttpContext): Observable<PullRequest> {
-    return this.apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Response(params, context).pipe(
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Params, context?: HttpContext): Observable<PullRequest> {
+    return this.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Plain$Response(params, context).pipe(
       map((r: StrictHttpResponse<PullRequest>): PullRequest => r.body)
     );
   }
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json()` instead.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Response(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
-    return apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json(this.http, this.rootUrl, params, context);
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Response(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
+    return apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Response()` instead.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params, context?: HttpContext): Observable<PullRequest> {
-    return this.apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Response(params, context).pipe(
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params, context?: HttpContext): Observable<PullRequest> {
+    return this.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<PullRequest>): PullRequest => r.body)
     );
   }
 
-  /** Path part for operation `apiPullRequestRepositoriesRepositoryIdPullRequestsGet()` */
-  static readonly ApiPullRequestRepositoriesRepositoryIdPullRequestsGetPath = '/api/PullRequest/repositories/{repositoryId}/pull-requests';
+  /** Path part for operation `apiRepositoriesRepositoryIdPullRequestsGet()` */
+  static readonly ApiRepositoriesRepositoryIdPullRequestsGetPath = '/api/repositories/{repositoryId}/pull-requests';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain()` instead.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsGet$Plain()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Response(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
-    return apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain(this.http, this.rootUrl, params, context);
+  apiRepositoriesRepositoryIdPullRequestsGet$Plain$Response(params: ApiRepositoriesRepositoryIdPullRequestsGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
+    return apiRepositoriesRepositoryIdPullRequestsGet$Plain(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsGet$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Params, context?: HttpContext): Observable<Array<PullRequest>> {
-    return this.apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Response(params, context).pipe(
+  apiRepositoriesRepositoryIdPullRequestsGet$Plain(params: ApiRepositoriesRepositoryIdPullRequestsGet$Plain$Params, context?: HttpContext): Observable<Array<PullRequest>> {
+    return this.apiRepositoriesRepositoryIdPullRequestsGet$Plain$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<PullRequest>>): Array<PullRequest> => r.body)
     );
   }
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json()` instead.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Response(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
-    return apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json(this.http, this.rootUrl, params, context);
+  apiRepositoriesRepositoryIdPullRequestsGet$Json$Response(params: ApiRepositoriesRepositoryIdPullRequestsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
+    return apiRepositoriesRepositoryIdPullRequestsGet$Json(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Response()` instead.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Params, context?: HttpContext): Observable<Array<PullRequest>> {
-    return this.apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Response(params, context).pipe(
+  apiRepositoriesRepositoryIdPullRequestsGet$Json(params: ApiRepositoriesRepositoryIdPullRequestsGet$Json$Params, context?: HttpContext): Observable<Array<PullRequest>> {
+    return this.apiRepositoriesRepositoryIdPullRequestsGet$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<PullRequest>>): Array<PullRequest> => r.body)
     );
   }
 
-  /** Path part for operation `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet()` */
-  static readonly ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGetPath = '/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff';
+  /** Path part for operation `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet()` */
+  static readonly ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGetPath = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain()` instead.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Response(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-    return apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain(this.http, this.rootUrl, params, context);
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Response(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params, context?: HttpContext): Observable<string> {
-    return this.apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Response(params, context).pipe(
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Params, context?: HttpContext): Observable<string> {
+    return this.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Plain$Response(params, context).pipe(
       map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json()` instead.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Response(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-    return apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json(this.http, this.rootUrl, params, context);
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Response(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Response()` instead.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json(params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params, context?: HttpContext): Observable<string> {
-    return this.apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Response(params, context).pipe(
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params, context?: HttpContext): Observable<string> {
+    return this.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<string>): string => r.body)
+    );
+  }
+
+  /** Path part for operation `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet()` */
+  static readonly ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGetPath = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/files';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain$Response(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequestFile>>> {
+    return apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain$Params, context?: HttpContext): Observable<Array<PullRequestFile>> {
+    return this.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<PullRequestFile>>): Array<PullRequestFile> => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Response(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequestFile>>> {
+    return apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json(params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Params, context?: HttpContext): Observable<Array<PullRequestFile>> {
+    return this.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberFilesGet$Json$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<PullRequestFile>>): Array<PullRequestFile> => r.body)
     );
   }
 

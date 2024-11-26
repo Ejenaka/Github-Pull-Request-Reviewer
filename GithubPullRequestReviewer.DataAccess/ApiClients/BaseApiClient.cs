@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using GithubPullRequestReviewer.DataAccess.Contracts;
 
 namespace GithubPullRequestReviewer.DataAccess.ApiClients
 {
@@ -6,15 +7,24 @@ namespace GithubPullRequestReviewer.DataAccess.ApiClients
     {
         private readonly HttpClient _httpClient;
 
-        protected BaseApiClient(string clientUrl)
+        protected BaseApiClient(string clientUrl, ITokenService gitHubTokenService)
         {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(clientUrl);
+            _httpClient.DefaultRequestHeaders.Add("access_token", gitHubTokenService.GetToken());
         }
 
         protected async Task<T?> RunGetRequestAsync<T>(string relativeUrl)
         {
             return await _httpClient.GetFromJsonAsync<T>(relativeUrl);
+        }
+
+        protected async Task<string> RunGetRequestAsync(string relativeUrl)
+        {
+            var response = await _httpClient.GetAsync(relativeUrl);
+            response.EnsureSuccessStatusCode();
+            
+            return await response.Content.ReadAsStringAsync();
         }
 
         protected async Task RunDeleteRequestAsync(string relativeUrl)

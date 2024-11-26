@@ -20,10 +20,25 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         [HttpGet]
         [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}/review")]
         [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
-
         public async Task<ReviewResult> GetPullRequestReviewResultAsync(long repositoryId, int pullRequestNumber)
         {
             return await _reviewService.GetPullRequestReviewResultAsync(repositoryId, pullRequestNumber);
+        }
+
+        [HttpGet]
+        [Route("repositories/{repositoryId}/pull-requests/{pullRequestNumber}/recommendations")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
+        public async Task<IEnumerable<Recommendation>> GetRecommendationsAsync(long repositoryId, int pullRequestNumber)
+        {
+            return await _reviewService.GetRecommendationsAsync(repositoryId, pullRequestNumber);
+        }
+
+        [HttpGet]
+        [Route("recommendations/{recommendationId}")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
+        public async Task<Recommendation> GetRecommendationByIdAsync(int recommendationId)
+        {
+            return await _reviewService.GetRecommendationByIdAsync(recommendationId);
         }
 
         [HttpPost]

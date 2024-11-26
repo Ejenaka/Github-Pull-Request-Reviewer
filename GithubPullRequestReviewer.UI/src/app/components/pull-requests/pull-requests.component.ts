@@ -6,11 +6,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { GithubWebhookService } from '../../api/event-handler/services';
 import { PullRequestService, UserService } from '../../api/pull-request/services';
 import { AuthService } from '../../services/auth.service';
-import { RepositoryState } from '../../models/repository-state';
+import { RepositoryModel } from '../../models/repository-model';
 import { StateService } from '../../services/state.service';
 import { PullRequest } from '../../api/pull-request/models';
-import { from, of, scan, switchMap } from 'rxjs';
+import { concatAll, filter, forkJoin, from, mergeMap, of, scan, switchMap } from 'rxjs';
 import { PullRequestState } from '../../models/pull-request-state';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-pull-requests',
@@ -25,11 +26,10 @@ import { PullRequestState } from '../../models/pull-request-state';
   styleUrl: './pull-requests.component.scss'
 })
 export class PullRequestsComponent implements OnInit {
-  repositories: RepositoryState[];
   pullRequests: PullRequest[] = [];
-  pullRequestsState: PullRequestState[] = [];
 
   constructor(
+    private readonly apiService: ApiService,
     private readonly userApiService: UserService,
     private readonly pullRequestApiService: PullRequestService,
     private readonly authService: AuthService,
@@ -37,10 +37,13 @@ export class PullRequestsComponent implements OnInit {
     private readonly cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.repositories = this.stateService.repositories;
-
-    from(this.repositories).pipe(
-      switchMap(repo => this.pullRequestApiService.apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json({ repositoryId: repo.repository.id as number, access_token: this.authService.getAccessToken() }))
-    ).subscribe(pullRequests => this.pullRequests.push(...pullRequests));
+    this.apiService.getUserRepositories()
+      .pipe(
+        mergeMap(repos => {
+          const reposId = repos.filter(r => r.configured).map(r => r.repository.id) as number[];
+          return this.apiService.getPullRequestsByRepositories(reposId);
+        })
+      )
+      .subscribe(pullRequests => this.pullRequests.push(...pullRequests));
   }
 }

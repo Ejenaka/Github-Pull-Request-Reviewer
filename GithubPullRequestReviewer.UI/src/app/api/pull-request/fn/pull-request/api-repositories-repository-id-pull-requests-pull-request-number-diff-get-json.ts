@@ -8,10 +8,10 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { PullRequest } from '../../models/pull-request';
 
-export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Params {
+export interface ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params {
   repositoryId: number;
+  pullRequestNumber: number;
 
 /**
  * GitHub User Access Token
@@ -19,10 +19,11 @@ export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Para
   access_token: string;
 }
 
-export function apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json(http: HttpClient, rootUrl: string, params: ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
-  const rb = new RequestBuilder(rootUrl, apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json.PATH, 'get');
+export function apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json(http: HttpClient, rootUrl: string, params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json.PATH, 'get');
   if (params) {
     rb.path('repositoryId', params.repositoryId, {});
+    rb.path('pullRequestNumber', params.pullRequestNumber, {});
     rb.header('access_token', params.access_token, {});
   }
 
@@ -31,9 +32,9 @@ export function apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json(http:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<PullRequest>>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Json.PATH = '/api/PullRequest/repositories/{repositoryId}/pull-requests';
+apiRepositoriesRepositoryIdPullRequestsPullRequestNumberDiffGet$Json.PATH = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/diff';

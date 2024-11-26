@@ -3,6 +3,7 @@ using GithubPullRequestReviewer.BusinessLogic.Services;
 using GithubPullRequestReviewer.DataAccess.ApiClients;
 using GithubPullRequestReviewer.DataAccess.Contracts;
 using GithubPullRequestReviewer.DataAccess.Options;
+using GithubPullRequestReviewer.DataAccess.Services;
 using GithubPullRequestReviewer.EventHandler.Authorization;
 using GithubPullRequestReviewer.EventHandler.EventProcessors;
 using Microsoft.AspNetCore.Authentication;
@@ -19,10 +20,9 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<WebhookEventProcessor, PullRequestWebhookEventProcessor>();
 builder.Services.AddScoped(_ => new GitHubClient(new ProductHeaderValue("pull-request-reviewer")));
 builder.Services.AddScoped<ITokenService, GithubTokenService>();
-builder.Services.AddScoped<ITokenValidator, GithubTokenValidator>();
 builder.Services.AddTransient<IGithubWebhookService, GithubWebhookService>();
 builder.Services.AddTransient<IReviewerApiClient, ReviewerApiClient>(c =>
-    new ReviewerApiClient(builder.Configuration.GetSection("ApiBaseUrls")["ReviewerApi"]));
+    new ReviewerApiClient(builder.Configuration.GetSection("ApiBaseUrls")["ReviewerApi"], c.GetRequiredService<ITokenService>()));
 
 builder.Services
     .AddAuthentication("GithubUserAuthenticationScheme")
@@ -35,6 +35,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

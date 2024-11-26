@@ -8,9 +8,9 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { PullRequest } from '../../models/pull-request';
+import { Recommendation } from '../../models/recommendation';
 
-export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params {
+export interface ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json$Params {
   repositoryId: number;
   pullRequestNumber: number;
 
@@ -20,8 +20,8 @@ export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNu
   access_token: string;
 }
 
-export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json(http: HttpClient, rootUrl: string, params: ApiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<PullRequest>> {
-  const rb = new RequestBuilder(rootUrl, apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json.PATH, 'get');
+export function apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json(http: HttpClient, rootUrl: string, params: ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Recommendation>>> {
+  const rb = new RequestBuilder(rootUrl, apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json.PATH, 'get');
   if (params) {
     rb.path('repositoryId', params.repositoryId, {});
     rb.path('pullRequestNumber', params.pullRequestNumber, {});
@@ -33,9 +33,9 @@ export function apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNum
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<PullRequest>;
+      return r as StrictHttpResponse<Array<Recommendation>>;
     })
   );
 }
 
-apiPullRequestRepositoriesRepositoryIdPullRequestsPullRequestNumberGet$Json.PATH = '/api/PullRequest/repositories/{repositoryId}/pull-requests/{pullRequestNumber}';
+apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json.PATH = '/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/recommendations';

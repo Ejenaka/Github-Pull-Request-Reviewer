@@ -62,18 +62,27 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
         public async Task<Comment> AddCommentForRecommendationAndGetResponseAsync(CreateCommentRequest createCommentRequest)
         {
             var recommendationId = createCommentRequest.RecommendationId;
+            var recommendation = await _reviewApiClient.GetRecommendationByIdAsync(recommendationId);
+            var review = await _reviewApiClient.GetPullRequestReviewResultAsync(recommendation.RepositoryId, recommendation.PullRequestNumber);
             var recommendationComments = await _commentApiClient.GetCommentsForRecommendationAsync(recommendationId);
 
             var messagesForGenerativeModel = new List<ChatMessage>()
             {
                 new UserChatMessage(Prompts.CommentPrompt),
-                new SystemChatMessage(Prompts.CommentPromptModelResponse)
+                new SystemChatMessage(Prompts.CommentPromptModelResponse),
             };
             
             messagesForGenerativeModel.AddRange(recommendationComments
                 .OrderBy(c => c.CreatedAt)
                 .Select<Comment, ChatMessage>(c => c.IsFromUser ? new UserChatMessage(c.Text) : new SystemChatMessage(c.Text))
             );
+
+            var userCommentRequest = Prompts.BuildCommentRequest(
+                createCommentRequest.Text,
+                recommendation.FileName,
+                recommendation.Content);
+            
+            messagesForGenerativeModel.Add(new UserChatMessage(userCommentRequest));
             
             var modelResponse = await _generativeModelProvider.SendMessagesAsync(messagesForGenerativeModel);
             var modelCreateCommentRequest = new CreateCommentRequest(modelResponse, false, recommendationId);

@@ -1,18 +1,25 @@
-.pr-container {
+.repositories-container {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     gap: 20px;
 }
-.pr-card {
+.repository-card {
     width: 800px;
 }
 .card-content {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
 }
-.pr-configured {
-    background-color: #e9ddff;
+.card-header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: start;
+    font-size: 13px;
+    span {
+        color: #7a757f;
+    }
 }

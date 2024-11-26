@@ -8,7 +8,10 @@ namespace GithubPullRequestReviewer.DataAccess
         public DbSet<RecommendationEntity> Recommendations { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
 
-        public PullRequestReviewerDbContext() : base() { }
+        public PullRequestReviewerDbContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
         public PullRequestReviewerDbContext(DbContextOptions<PullRequestReviewerDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

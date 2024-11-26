@@ -11,5 +11,6 @@ namespace GithubPullRequestReviewer.Domain.Models
         public PullRequestStatus Status { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public User Creator { get; set; }
+        public Repository Repository { get; set; }
     }
 }

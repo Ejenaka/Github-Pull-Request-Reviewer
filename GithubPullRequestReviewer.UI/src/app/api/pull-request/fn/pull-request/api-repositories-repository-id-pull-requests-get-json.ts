@@ -10,7 +10,7 @@ import { RequestBuilder } from '../../request-builder';
 
 import { PullRequest } from '../../models/pull-request';
 
-export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Params {
+export interface ApiRepositoriesRepositoryIdPullRequestsGet$Json$Params {
   repositoryId: number;
 
 /**
@@ -19,15 +19,15 @@ export interface ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Par
   access_token: string;
 }
 
-export function apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain(http: HttpClient, rootUrl: string, params: ApiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
-  const rb = new RequestBuilder(rootUrl, apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain.PATH, 'get');
+export function apiRepositoriesRepositoryIdPullRequestsGet$Json(http: HttpClient, rootUrl: string, params: ApiRepositoriesRepositoryIdPullRequestsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<PullRequest>>> {
+  const rb = new RequestBuilder(rootUrl, apiRepositoriesRepositoryIdPullRequestsGet$Json.PATH, 'get');
   if (params) {
     rb.path('repositoryId', params.repositoryId, {});
     rb.header('access_token', params.access_token, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'text', accept: 'text/plain', context })
+    rb.build({ responseType: 'json', accept: 'text/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -36,4 +36,4 @@ export function apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain(http
   );
 }
 
-apiPullRequestRepositoriesRepositoryIdPullRequestsGet$Plain.PATH = '/api/PullRequest/repositories/{repositoryId}/pull-requests';
+apiRepositoriesRepositoryIdPullRequestsGet$Json.PATH = '/api/repositories/{repositoryId}/pull-requests';

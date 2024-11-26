@@ -29,11 +29,11 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
 
             return new ReviewResult
             {
-                Issues = recommendationsGrouped.Where(x => x.Key == RecommendationType.Issue).FirstOrDefault()?.ToList(),
-                Vulnerabilities = recommendationsGrouped.Where(x => x.Key == RecommendationType.Vulnerability).FirstOrDefault()?.ToList(),
-                Optimization = recommendationsGrouped.Where(x => x.Key == RecommendationType.Optimization).FirstOrDefault()?.ToList(),
-                Enhancements = recommendationsGrouped.Where(x => x.Key == RecommendationType.Enhancement).FirstOrDefault()?.ToList(),
-                BestPractices = recommendationsGrouped.Where(x => x.Key == RecommendationType.BestPractice).FirstOrDefault()?.ToList(),
+                Issues = recommendationsGrouped.FirstOrDefault(x => x.Key == RecommendationType.Issue)?.ToList(),
+                Vulnerabilities = recommendationsGrouped.FirstOrDefault(x => x.Key == RecommendationType.Vulnerability)?.ToList(),
+                Optimization = recommendationsGrouped.FirstOrDefault(x => x.Key == RecommendationType.Optimization)?.ToList(),
+                Enhancements = recommendationsGrouped.FirstOrDefault(x => x.Key == RecommendationType.Enhancement)?.ToList(),
+                BestPractices = recommendationsGrouped.FirstOrDefault(x => x.Key == RecommendationType.BestPractice)?.ToList(),
             };
         }
 
@@ -71,6 +71,22 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
         {
             _dbContext.Update(recommendation.ToDb());
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Recommendation> GetRecommendationByIdAsync(int recommendationId)
+        {
+            var recommendation = await _dbContext.Recommendations.FirstOrDefaultAsync(r => r.Id == recommendationId);
+            
+            return recommendation.ToDomain();
+        }
+
+        public async Task<IEnumerable<Recommendation>> GetRecommendationsAsync(long repositoryId, int pullRequestNumber)
+        {
+            var recommendations = await _dbContext.Recommendations
+                .Where(r => r.RepositoryId == repositoryId && r.PullRequestNumber == pullRequestNumber)
+                .ToListAsync();
+
+            return recommendations.Select(r => r.ToDomain());
         }
     }
 }
