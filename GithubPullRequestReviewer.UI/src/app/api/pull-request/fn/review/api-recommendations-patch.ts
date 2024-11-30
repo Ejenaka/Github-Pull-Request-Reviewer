@@ -10,7 +10,7 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Recommendation } from '../../models/recommendation';
 
-export interface ApiReviewsPatch$Params {
+export interface ApiRecommendationsPatch$Params {
 
 /**
  * GitHub User Access Token
@@ -19,8 +19,8 @@ export interface ApiReviewsPatch$Params {
       body?: Recommendation
 }
 
-export function apiReviewsPatch(http: HttpClient, rootUrl: string, params: ApiReviewsPatch$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, apiReviewsPatch.PATH, 'patch');
+export function apiRecommendationsPatch(http: HttpClient, rootUrl: string, params: ApiRecommendationsPatch$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, apiRecommendationsPatch.PATH, 'patch');
   if (params) {
     rb.header('access_token', params.access_token, {});
     rb.body(params.body, 'application/*+json');
@@ -36,4 +36,4 @@ export function apiReviewsPatch(http: HttpClient, rootUrl: string, params: ApiRe
   );
 }
 
-apiReviewsPatch.PATH = '/api/reviews';
+apiRecommendationsPatch.PATH = '/api/recommendations';

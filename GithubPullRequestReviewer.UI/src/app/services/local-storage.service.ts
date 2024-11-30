@@ -12,6 +12,10 @@ export class LocalStorageService {
   saveItem(item: StorageItem) {
     localStorage.setItem(item.key, item.value);
   }
+
+  removeItem(key: string) {
+    localStorage.removeItem(key);
+  }
 }
 
 export interface StorageItem {

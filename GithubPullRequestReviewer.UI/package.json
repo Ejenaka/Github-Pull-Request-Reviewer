@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate-pull-request-api": "ng-openapi-gen --input open-api/pull-request-open-api.json --output src\\app\\api\\pull-request",
-    "generate-webhook-api": "ng-openapi-gen --input open-api/webhook-open-api.json --output src\\app\\api\\event-handler"
+    "generate-webhook-api": "ng-openapi-gen --input open-api/webhook-open-api.json --output src\\app\\api\\event-handler",
+    "generate-reviewer-api": "ng-openapi-gen --input open-api/reviewer-open-api.json --output src\\app\\api\\reviewer"
   },
   "private": true,
   "dependencies": {

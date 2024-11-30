@@ -9,7 +9,7 @@ export const authGuard: CanActivateChildFn = (childRoute, state) => {
   if (authService.isUserLoggedIn()) {
     return true;
   } else {
-    router.navigate(['/auth']);
+    router.navigate(['/auth'], { replaceUrl: true });
     return false;
   }
 };

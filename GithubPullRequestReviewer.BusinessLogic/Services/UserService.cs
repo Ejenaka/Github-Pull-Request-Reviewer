@@ -20,7 +20,6 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
         public async Task<User> GetCurrentUserAsync()
         {
             var currentUser = await _githubClient.User.Current();
-
             return currentUser.ToDomain();
         }
 

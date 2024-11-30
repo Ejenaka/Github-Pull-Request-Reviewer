@@ -3,23 +3,22 @@ using Octokit.Webhooks;
 using Octokit.Webhooks.Events;
 using Octokit.Webhooks.Events.PullRequest;
 
-namespace GithubPullRequestReviewer.EventHandler.EventProcessors
+namespace GithubPullRequestReviewer.EventHandler.EventProcessors;
+
+public class PullRequestWebhookEventProcessor : WebhookEventProcessor
 {
-    public class PullRequestWebhookEventProcessor : WebhookEventProcessor
+    private readonly IReviewerApiClient _reviewerApiClient;
+
+    public PullRequestWebhookEventProcessor(IReviewerApiClient reviewerApiClient)
     {
-        private readonly IReviewerApiClient _reviewerApiClient;
+        _reviewerApiClient = reviewerApiClient;
+    }
 
-        public PullRequestWebhookEventProcessor(IReviewerApiClient reviewerApiClient)
+    protected override async Task ProcessPullRequestWebhookAsync(WebhookHeaders headers, PullRequestEvent pullRequestEvent, PullRequestAction action)
+    {
+        if (pullRequestEvent.Action == PullRequestAction.Opened)
         {
-            _reviewerApiClient = reviewerApiClient;
-        }
-
-        protected override async Task ProcessPullRequestWebhookAsync(WebhookHeaders headers, PullRequestEvent pullRequestEvent, PullRequestAction action)
-        {
-            if (pullRequestEvent.Action == PullRequestAction.Opened)
-            {
-                await _reviewerApiClient.ReviewPulRequestAsync(pullRequestEvent.Repository.Id, pullRequestEvent.PullRequest.Number);
-            }
+            await _reviewerApiClient.ReviewPulRequestAsync(pullRequestEvent.Repository.Id, pullRequestEvent.PullRequest.Number);
         }
     }
 }

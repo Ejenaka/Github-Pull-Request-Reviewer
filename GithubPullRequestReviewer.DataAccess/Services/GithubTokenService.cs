@@ -1,6 +1,4 @@
 ﻿using GithubPullRequestReviewer.DataAccess.Contracts;
-using GithubPullRequestReviewer.DataAccess.Options;
-using Microsoft.Extensions.Options;
 using Octokit;
 
 namespace GithubPullRequestReviewer.DataAccess.Services
@@ -8,12 +6,10 @@ namespace GithubPullRequestReviewer.DataAccess.Services
     public class GithubTokenService : ITokenService
     {
         private readonly GitHubClient _githubClient;
-        private readonly IOptions<GithubOAuthAppOptions> _options;
 
-        public GithubTokenService(GitHubClient githubClient, IOptions<GithubOAuthAppOptions> options)
+        public GithubTokenService(GitHubClient githubClient)
         {
             _githubClient = githubClient;
-            _options = options;
         }
 
         public string GetToken()

@@ -40,6 +40,14 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         {
             return await _reviewService.GetRecommendationByIdAsync(recommendationId);
         }
+        
+        [HttpPatch]
+        [Route("recommendations")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
+        public async Task UpdatePullRequestRecommendationAsync([FromBody] Recommendation recommendation)
+        {
+            await _reviewService.UpdatePullRequestRecommendationAsync(recommendation);
+        }
 
         [HttpPost]
         [Route("reviews")]
@@ -47,14 +55,6 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         public async Task CreatePullRequestReviewAsync([FromBody] CreateReviewDto createReviewDto)
         {
             await _reviewService.CreatePullRequestReviewAsync(createReviewDto);
-        }
-
-        [HttpPatch]
-        [Route("reviews")]
-        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
-        public async Task UpdatePullRequestRecommendationAsync([FromBody] Recommendation recommendation)
-        {
-            await _reviewService.UpdatePullRequestRecommendationAsync(recommendation);
         }
     }
 }

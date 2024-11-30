@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from "../header/header.component";
 
 @Component({
   selector: 'app-navigation',
@@ -13,15 +14,25 @@ import { Router, RouterOutlet } from '@angular/router';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    HeaderComponent
   ],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss'
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
   pageTitle: string;
 
-  constructor(private readonly router: Router) { }
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRouter: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRouter.data.subscribe(data => {
+      console.log(data);
+      this.pageTitle = data['pageTitle'];
+    })
+  }
 
   navigateToPage(pagePath: string) {
     if (pagePath === 'repositories') {

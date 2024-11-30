@@ -1,4 +1,3 @@
-using GithubPullRequestReviewer.PullRequestAPI.Services;
 using GithubPullRequestReviewer.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Octokit;

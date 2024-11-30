@@ -1,0 +1,235 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "GithubPullRequestReviewer.ReviewerAPI",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/repositories/{repositoryId}/pull-requests/{pullRequestNumber}/review": {
+            "get": {
+                "tags": [
+                    "Reviewer"
+                ],
+                "parameters": [
+                    {
+                        "name": "repositoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "pullRequestNumber",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "access_token",
+                        "in": "header",
+                        "description": "GitHub User Access Token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReviewResultResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReviewResultResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReviewResultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comments": {
+            "post": {
+                "tags": [
+                    "Reviewer"
+                ],
+                "parameters": [
+                    {
+                        "name": "access_token",
+                        "in": "header",
+                        "description": "GitHub User Access Token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCommentRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCommentRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCommentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "recommendationId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "text": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "isFromUser": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateCommentRequest": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "isFromUser": {
+                        "type": "boolean"
+                    },
+                    "recommendationId": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ReviewResultResponse": {
+                "type": "object",
+                "properties": {
+                    "issues": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReviewResultResponseItem"
+                        },
+                        "nullable": true
+                    },
+                    "vulnerabilities": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReviewResultResponseItem"
+                        },
+                        "nullable": true
+                    },
+                    "optimization": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReviewResultResponseItem"
+                        },
+                        "nullable": true
+                    },
+                    "enhancements": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReviewResultResponseItem"
+                        },
+                        "nullable": true
+                    },
+                    "bestPractices": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReviewResultResponseItem"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ReviewResultResponseItem": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "file": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "beginsAtCodeLine": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "endsAtCodeLine": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    }
+}
