@@ -36,7 +36,7 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         }
 
         [HttpPost]
-        [Route("repositories/files")]
+        [Route("files")]
         [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
         public async Task<string> GetFileContentAsync([FromBody] GetFileContentRequest getFileContentRequestRequest)
         {
