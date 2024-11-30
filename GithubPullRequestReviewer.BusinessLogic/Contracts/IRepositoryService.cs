@@ -6,5 +6,6 @@ namespace GithubPullRequestReviewer.BusinessLogic.Contracts
     {
         Task<IReadOnlyList<Repository>> GetRepositoriesForCurrentUserAsync();
         Task<Repository> GetRepositoryById(long repositoryId);
+        Task<string> GetFileContentAsync(string repositoryName, string filePath, string headRef);
     }
 }

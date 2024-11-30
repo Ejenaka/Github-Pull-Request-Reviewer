@@ -2,9 +2,9 @@
 using GithubPullRequestReviewer.DataAccess.Responses;
 using System.Text.Json;
 using GithubPullRequestReviewer.DataAccess.Contracts;
+using GithubPullRequestReviewer.DataAccess.Requests;
 using GithubPullRequestReviewer.Domain.DTO;
 using GithubPullRequestReviewer.Domain.Models;
-using GithubPullRequestReviewer.PullRequestAPI.Requests;
 using OpenAI.Chat;
 
 namespace GithubPullRequestReviewer.BusinessLogic.Services

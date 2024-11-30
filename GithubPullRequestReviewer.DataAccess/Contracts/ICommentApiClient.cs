@@ -1,5 +1,5 @@
+using GithubPullRequestReviewer.DataAccess.Requests;
 using GithubPullRequestReviewer.Domain.Models;
-using GithubPullRequestReviewer.PullRequestAPI.Requests;
 
 namespace GithubPullRequestReviewer.DataAccess.Contracts;
 

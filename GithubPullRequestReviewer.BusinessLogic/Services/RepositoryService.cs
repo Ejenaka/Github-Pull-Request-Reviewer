@@ -26,5 +26,17 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
 
             return repository.ToDomain();
         }
+        
+        public async Task<string> GetFileContentAsync(string repositoryName, string filePath, string headRef)
+        {
+            var currentUser = await _githubClient.User.Current();
+            var fileContent = await _githubClient.Repository.Content.GetRawContentByRef(
+                currentUser.Login,
+                repositoryName,
+                filePath,
+                headRef);
+            
+            return Convert.ToBase64String(fileContent);
+        }
     }
 }

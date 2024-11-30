@@ -1,6 +1,6 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
+using GithubPullRequestReviewer.DataAccess.Requests;
 using GithubPullRequestReviewer.Domain.Models;
-using GithubPullRequestReviewer.PullRequestAPI.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

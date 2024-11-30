@@ -1,8 +1,8 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using GithubPullRequestReviewer.Domain.Models;
 using System.Text.Json;
+using GithubPullRequestReviewer.DataAccess.Requests;
 using GithubPullRequestReviewer.DataAccess.Responses;
-using GithubPullRequestReviewer.PullRequestAPI.Requests;
 
 namespace GithubPullRequestReviewer.BusinessLogic.Services
 {
