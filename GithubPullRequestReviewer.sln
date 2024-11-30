@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GithubPullRequestReviewer.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GithubPullRequestReviewer.PullRequestAPI", "GithubPullRequestReviewer.PullRequestAPI\GithubPullRequestReviewer.PullRequestAPI.csproj", "{18A4B7F5-3CD7-475B-9B6A-3E6883C1D992}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTestApp", "ConsoleTestApp\ConsoleTestApp.csproj", "{E8E88378-8C29-49EF-AAF1-40197CC8F7D9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GithubPullRequestReviewer.DataAccess", "GithubPullRequestReviewer.DataAccess\GithubPullRequestReviewer.DataAccess.csproj", "{90610B2B-A82E-4F40-8564-E96C77ED0B43}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GithubPullRequestReviewer.Domain", "GithubPullRequestReviewer.Domain\GithubPullRequestReviewer.Domain.csproj", "{4E8F1B64-57B5-420B-A19E-A3C393C72CCB}"
@@ -35,10 +33,6 @@ Global
 		{18A4B7F5-3CD7-475B-9B6A-3E6883C1D992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18A4B7F5-3CD7-475B-9B6A-3E6883C1D992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18A4B7F5-3CD7-475B-9B6A-3E6883C1D992}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8E88378-8C29-49EF-AAF1-40197CC8F7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8E88378-8C29-49EF-AAF1-40197CC8F7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8E88378-8C29-49EF-AAF1-40197CC8F7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8E88378-8C29-49EF-AAF1-40197CC8F7D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90610B2B-A82E-4F40-8564-E96C77ED0B43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90610B2B-A82E-4F40-8564-E96C77ED0B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90610B2B-A82E-4F40-8564-E96C77ED0B43}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -8,6 +8,7 @@ import { User } from '../models/user';
 export interface PullRequest {
   creator?: User;
   diffUrl?: string | null;
+  headRef?: string | null;
   id?: number;
   lastModifiedDate?: string;
   name?: string | null;

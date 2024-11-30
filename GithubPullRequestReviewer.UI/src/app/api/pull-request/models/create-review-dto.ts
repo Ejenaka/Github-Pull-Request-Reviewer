@@ -7,7 +7,7 @@ export interface CreateReviewDto {
   bestPractices?: Array<CreateReviewDtoItem> | null;
   enhancements?: Array<CreateReviewDtoItem> | null;
   issues?: Array<CreateReviewDtoItem> | null;
-  optimization?: Array<CreateReviewDtoItem> | null;
+  optimizations?: Array<CreateReviewDtoItem> | null;
   pullRequestNumber?: number;
   repositoryId?: number;
   vulnerabilities?: Array<CreateReviewDtoItem> | null;

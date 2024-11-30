@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { switchMap, map, forkJoin, Observable, from, mergeMap, concatMap } from 'rxjs';
 import { RepositoryModel } from '../models/repository-model';
 import { PullRequest, PullRequestFile, Recommendation, User } from '../api/pull-request/models';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -69,11 +69,11 @@ export class ApiService {
     });
   }
 
-  getPullRequestFileContent(filePath: string, fileSha: string, repositoryName: string): Observable<string> {
+  getPullRequestFileContent(filePath: string, headRef: string, repositoryName: string): Observable<string> {
     const accessToken = this.authService.getAccessToken();
     return this.getAuthenticatedUser().pipe(
       switchMap(user => {
-        const fileUrl = `https://raw.githubusercontent.com/${user.username}/${repositoryName}/${fileSha}/${filePath}`;
+        const fileUrl = `https://raw.githubusercontent.com/${user.username}/${repositoryName}/${headRef}/${filePath}`;
         return this.httpClient.get(fileUrl, {
           headers: {
             Authorization: `Bearer ${accessToken}`

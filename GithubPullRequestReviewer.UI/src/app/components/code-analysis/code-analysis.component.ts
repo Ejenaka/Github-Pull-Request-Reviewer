@@ -76,8 +76,8 @@ export class CodeAnalysisComponent implements OnInit {
 
   getFileContent(fileName: string, repositoryId: number): Observable<string> {
     const repositoryName = this.repositories.find(r => r.id === repositoryId).name;
-    const fileSha = this.files.find(f => f.fileName === fileName).sha;
-    return this.apiService.getPullRequestFileContent(fileName, fileSha, repositoryName);
+    const headRef = this.selectedPullRequest().headRef;
+    return this.apiService.getPullRequestFileContent(fileName, headRef, repositoryName);
   }
 
   getFileContentFromFileContents(repositoryId: number, fileName: string): Observable<string> {

@@ -36,6 +36,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       if (code) {
         this.userApiService.apiUsersAuthTokenGet$Plain({ code: code, access_token: '' }).subscribe(token => {
           this.localStorageService.saveItem({ key: TOKEN_STORAGE_KEY, value: token });
+          this.router.navigate([''], { replaceUrl: true })
         });
       }
     });
@@ -49,7 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.userApiService.apiUsersAuthUrlGet$Plain({ access_token: '' }).subscribe({
       next: (url) => {
-        this.router.navigateByUrl(url);
+        window.location.href = url;
       },
       complete: () => this.isLoading = false,
       error: () => this.isLoading = false

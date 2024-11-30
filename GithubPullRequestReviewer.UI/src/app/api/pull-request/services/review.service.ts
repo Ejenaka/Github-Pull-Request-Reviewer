@@ -11,6 +11,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { apiRecommendationsPatch } from '../fn/review/api-recommendations-patch';
+import { ApiRecommendationsPatch$Params } from '../fn/review/api-recommendations-patch';
 import { apiRecommendationsRecommendationIdGet$Json } from '../fn/review/api-recommendations-recommendation-id-get-json';
 import { ApiRecommendationsRecommendationIdGet$Json$Params } from '../fn/review/api-recommendations-recommendation-id-get-json';
 import { apiRecommendationsRecommendationIdGet$Plain } from '../fn/review/api-recommendations-recommendation-id-get-plain';
@@ -23,8 +25,6 @@ import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberReviewGet$Json 
 import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberReviewGet$Json$Params } from '../fn/review/api-repositories-repository-id-pull-requests-pull-request-number-review-get-json';
 import { apiRepositoriesRepositoryIdPullRequestsPullRequestNumberReviewGet$Plain } from '../fn/review/api-repositories-repository-id-pull-requests-pull-request-number-review-get-plain';
 import { ApiRepositoriesRepositoryIdPullRequestsPullRequestNumberReviewGet$Plain$Params } from '../fn/review/api-repositories-repository-id-pull-requests-pull-request-number-review-get-plain';
-import { apiReviewsPatch } from '../fn/review/api-reviews-patch';
-import { ApiReviewsPatch$Params } from '../fn/review/api-reviews-patch';
 import { apiReviewsPost } from '../fn/review/api-reviews-post';
 import { ApiReviewsPost$Params } from '../fn/review/api-reviews-post';
 import { Recommendation } from '../models/recommendation';
@@ -177,6 +177,31 @@ export class ReviewService extends BaseService {
     );
   }
 
+  /** Path part for operation `apiRecommendationsPatch()` */
+  static readonly ApiRecommendationsPatchPath = '/api/recommendations';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiRecommendationsPatch()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiRecommendationsPatch$Response(params: ApiRecommendationsPatch$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return apiRecommendationsPatch(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiRecommendationsPatch$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiRecommendationsPatch(params: ApiRecommendationsPatch$Params, context?: HttpContext): Observable<void> {
+    return this.apiRecommendationsPatch$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
   /** Path part for operation `apiReviewsPost()` */
   static readonly ApiReviewsPostPath = '/api/reviews';
 
@@ -198,31 +223,6 @@ export class ReviewService extends BaseService {
    */
   apiReviewsPost(params: ApiReviewsPost$Params, context?: HttpContext): Observable<void> {
     return this.apiReviewsPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
-  /** Path part for operation `apiReviewsPatch()` */
-  static readonly ApiReviewsPatchPath = '/api/reviews';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiReviewsPatch()` instead.
-   *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
-   */
-  apiReviewsPatch$Response(params: ApiReviewsPatch$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return apiReviewsPatch(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiReviewsPatch$Response()` instead.
-   *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
-   */
-  apiReviewsPatch(params: ApiReviewsPatch$Params, context?: HttpContext): Observable<void> {
-    return this.apiReviewsPatch$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }

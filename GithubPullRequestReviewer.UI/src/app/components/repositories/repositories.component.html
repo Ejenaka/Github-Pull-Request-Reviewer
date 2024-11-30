@@ -1,3 +1,4 @@
+<h1 class="content-header">Repositories</h1>
 <div class="repositories-container">
     @for (repositoryWithHook of repositoriesWithHook; track repositoryWithHook.repository.id) {
         <mat-card class="repository-card" [ngClass]="{ 'repository-configured' : repositoryWithHook.configured }" appearance="outlined">

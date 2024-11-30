@@ -1,4 +1,5 @@
-<mat-sidenav-container class="sidenav-container">
+<app-header></app-header>
+  <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" opened class="sidenav">
       <mat-nav-list class="sidenav-list">
         <a (click)="navigateToPage('repositories')" mat-list-item>
@@ -16,7 +17,6 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content">
-      <h1 class="sidenav-content-header">{{ pageTitle }}</h1>
       <router-outlet></router-outlet>
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>

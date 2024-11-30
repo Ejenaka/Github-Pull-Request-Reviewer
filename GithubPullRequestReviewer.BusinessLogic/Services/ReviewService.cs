@@ -48,7 +48,7 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
                 .Select(x => new { Recomendation = x, Type = RecommendationType.Issue })
                 .Concat(createReviewDto.Vulnerabilities.Select(x => new { Recomendation = x, Type = RecommendationType.Vulnerability }))
                 .Concat(createReviewDto.Enhancements.Select(x => new { Recomendation = x, Type = RecommendationType.Enhancement }))
-                .Concat(createReviewDto.Optimization.Select(x => new { Recomendation = x, Type = RecommendationType.Optimization }))
+                .Concat(createReviewDto.Optimizations.Select(x => new { Recomendation = x, Type = RecommendationType.Optimization }))
                 .Concat(createReviewDto.BestPractices.Select(x => new { Recomendation = x, Type = RecommendationType.BestPractice }));
 
             var recommendationsDb = recommendations.Select(x => new RecommendationEntity

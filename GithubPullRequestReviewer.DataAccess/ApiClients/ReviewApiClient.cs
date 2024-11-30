@@ -6,7 +6,7 @@ namespace GithubPullRequestReviewer.DataAccess.ApiClients;
 
 public class ReviewApiClient : BaseApiClient, IReviewApiClient
 {
-    public ReviewApiClient(string clientUrl, ITokenService gitHubTokenService) : base(clientUrl, gitHubTokenService) { }
+    public ReviewApiClient(string clientUrl, ITokenService tokenService) : base(clientUrl, tokenService) { }
 
     public async Task<ReviewResult> GetPullRequestReviewResultAsync(long repositoryId, int pullRequestNumber)
     {

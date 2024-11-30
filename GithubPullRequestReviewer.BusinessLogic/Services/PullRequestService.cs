@@ -42,11 +42,6 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
             return content;
         }
 
-        public Task CreatePullRequestAsync(string githubPullRequestId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<PullRequestFile>> GetPullRequestFilesAsync(long repositoryId, int pullRequestNumber)
         {
             return await _githubClient.Repository.PullRequest.Files(repositoryId, pullRequestNumber);

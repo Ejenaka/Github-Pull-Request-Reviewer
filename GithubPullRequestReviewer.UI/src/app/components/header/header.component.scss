@@ -22,4 +22,12 @@
 }
 .header {
     background-color: #fdf7ff;
+    // Хедер фиксирован вверху
+    // .header {
+    //     flex: 0 0 auto;
+    //     position: fixed;
+    //     top: 0;
+    //     width: 100%;
+    //     z-index: 1000;
+    // }
 }

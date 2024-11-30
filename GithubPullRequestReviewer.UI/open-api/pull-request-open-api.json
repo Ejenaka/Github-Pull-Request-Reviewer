@@ -587,6 +587,48 @@
         }
       }
     },
+    "/api/recommendations": {
+      "patch": {
+        "tags": [
+          "Review"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "GitHub User Access Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recommendation"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recommendation"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recommendation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/reviews": {
       "post": {
         "tags": [
@@ -618,46 +660,6 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateReviewDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "access_token",
-            "in": "header",
-            "description": "GitHub User Access Token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Recommendation"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Recommendation"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Recommendation"
               }
             }
           }
@@ -915,7 +917,7 @@
             },
             "nullable": true
           },
-          "optimization": {
+          "optimizations": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CreateReviewDtoItem"
@@ -973,6 +975,10 @@
             "format": "int32"
           },
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "headRef": {
             "type": "string",
             "nullable": true
           },

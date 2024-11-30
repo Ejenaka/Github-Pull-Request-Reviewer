@@ -1,27 +1,26 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
 using OpenAI.Chat;
 
-namespace GithubPullRequestReviewer.PullRequestAPI.Services
+namespace GithubPullRequestReviewer.BusinessLogic.Services;
+
+public class ChatGptModelProvider : IGenerativeModelProvider
 {
-    public class ChatGptModelProvider : IGenerativeModelProvider
+    private readonly ChatClient _chatClient;
+
+    public ChatGptModelProvider(string apiKey)
     {
-        private readonly ChatClient _chatClient;
+        _chatClient = new ChatClient("gpt-4", apiKey);
+    }
 
-        public ChatGptModelProvider(string apiKey)
-        {
-            _chatClient = new("gpt-4", apiKey);
-        }
+    public async Task<string> SendMessageAsync(string text)
+    {
+        var chatResult = await _chatClient.CompleteChatAsync(text);
+        return chatResult.Value.Content[0].Text;
+    }
 
-        public async Task<string> SendMessageAsync(string text)
-        {
-            var chatResult = await _chatClient.CompleteChatAsync(text);
-            return chatResult.Value.Content[0].Text;
-        }
-
-        public async Task<string> SendMessagesAsync(IEnumerable<ChatMessage> messages)
-        {
-            var chatResult = await _chatClient.CompleteChatAsync(messages);
-            return chatResult.Value.Content.Last().Text;
-        }
+    public async Task<string> SendMessagesAsync(IEnumerable<ChatMessage> messages)
+    {
+        var chatResult = await _chatClient.CompleteChatAsync(messages);
+        return chatResult.Value.Content.Last().Text;
     }
 }
