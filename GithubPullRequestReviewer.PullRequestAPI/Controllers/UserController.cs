@@ -1,4 +1,5 @@
 ﻿using GithubPullRequestReviewer.BusinessLogic.Contracts;
+using GithubPullRequestReviewer.DataAccess.Requests;
 using GithubPullRequestReviewer.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,17 @@ namespace GithubPullRequestReviewer.PullRequestAPI.Controllers
         public async Task<IReadOnlyList<Repository>> GetUserRepositoriesAsync()
         {
             return await _repositoriesService.GetRepositoriesForCurrentUserAsync();
+        }
+
+        [HttpPost]
+        [Route("files")]
+        [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
+        public async Task<string> GetFileContentAsync([FromBody] GetFileContentRequest getFileContentRequestRequest)
+        {
+            return await _repositoriesService.GetFileContentAsync(
+                getFileContentRequestRequest.RepositoryName,
+                getFileContentRequestRequest.FilePath,
+                getFileContentRequestRequest.HeadRef);
         }
 
         [HttpGet]
