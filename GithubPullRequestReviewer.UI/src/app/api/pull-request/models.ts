@@ -6,6 +6,7 @@ export type { Comment } from './models/comment';
 export type { CreateCommentRequest } from './models/create-comment-request';
 export type { CreateReviewDto } from './models/create-review-dto';
 export type { CreateReviewDtoItem } from './models/create-review-dto-item';
+export type { GetFileContentRequest } from './models/get-file-content-request';
 export type { PullRequest } from './models/pull-request';
 export type { PullRequestFile } from './models/pull-request-file';
 export type { PullRequestStatus } from './models/pull-request-status';

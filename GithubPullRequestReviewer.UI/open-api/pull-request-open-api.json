@@ -758,6 +758,65 @@
         }
       }
     },
+    "/api/users/files": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "GitHub User Access Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFileContentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFileContentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFileContentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/auth/url": {
       "get": {
         "tags": [
@@ -961,6 +1020,24 @@
         },
         "additionalProperties": false
       },
+      "GetFileContentRequest": {
+        "type": "object",
+        "properties": {
+          "repositoryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "filePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "headRef": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PullRequest": {
         "type": "object",
         "properties": {
@@ -977,6 +1054,10 @@
             "nullable": true
           },
           "diffUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "headRef": {
             "type": "string",
             "nullable": true
           },

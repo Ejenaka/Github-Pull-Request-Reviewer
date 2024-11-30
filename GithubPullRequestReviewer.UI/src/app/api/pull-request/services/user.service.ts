@@ -27,6 +27,10 @@ import { apiUsersCurrentRepositoriesGet$Json } from '../fn/user/api-users-curren
 import { ApiUsersCurrentRepositoriesGet$Json$Params } from '../fn/user/api-users-current-repositories-get-json';
 import { apiUsersCurrentRepositoriesGet$Plain } from '../fn/user/api-users-current-repositories-get-plain';
 import { ApiUsersCurrentRepositoriesGet$Plain$Params } from '../fn/user/api-users-current-repositories-get-plain';
+import { apiUsersFilesPost$Json } from '../fn/user/api-users-files-post-json';
+import { ApiUsersFilesPost$Json$Params } from '../fn/user/api-users-files-post-json';
+import { apiUsersFilesPost$Plain } from '../fn/user/api-users-files-post-plain';
+import { ApiUsersFilesPost$Plain$Params } from '../fn/user/api-users-files-post-plain';
 import { Repository } from '../models/repository';
 import { User } from '../models/user';
 
@@ -127,6 +131,53 @@ export class UserService extends BaseService {
   apiUsersCurrentRepositoriesGet$Json(params: ApiUsersCurrentRepositoriesGet$Json$Params, context?: HttpContext): Observable<Array<Repository>> {
     return this.apiUsersCurrentRepositoriesGet$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<Repository>>): Array<Repository> => r.body)
+    );
+  }
+
+  /** Path part for operation `apiUsersFilesPost()` */
+  static readonly ApiUsersFilesPostPath = '/api/users/files';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersFilesPost$Plain()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiUsersFilesPost$Plain$Response(params: ApiUsersFilesPost$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return apiUsersFilesPost$Plain(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiUsersFilesPost$Plain$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiUsersFilesPost$Plain(params: ApiUsersFilesPost$Plain$Params, context?: HttpContext): Observable<string> {
+    return this.apiUsersFilesPost$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersFilesPost$Json()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiUsersFilesPost$Json$Response(params: ApiUsersFilesPost$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return apiUsersFilesPost$Json(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiUsersFilesPost$Json$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiUsersFilesPost$Json(params: ApiUsersFilesPost$Json$Params, context?: HttpContext): Observable<string> {
+    return this.apiUsersFilesPost$Json$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

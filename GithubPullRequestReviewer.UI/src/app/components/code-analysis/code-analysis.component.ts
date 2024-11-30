@@ -3,11 +3,12 @@ import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../services/api.service';
 import { PullRequest, PullRequestFile, Recommendation, Repository } from '../../api/pull-request/models';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, switchMap } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { HighlightAuto } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
+import { Buffer } from "buffer";
 
 @Component({
   selector: 'app-code-analysis',
@@ -36,16 +37,13 @@ export class CodeAnalysisComponent implements OnInit {
     private readonly apiService: ApiService) {
 
     effect(() => {
-      console.log('repo effect')
       const repo = this.selectedRepository();
-      console.log(repo);
       if (repo) {
         this.onRepositorySelected(repo.id as number);
       }
     });
 
     effect(() => {
-      console.log('repo & pr effect')
       const repo = this.selectedRepository();
       const pr = this.selectedPullRequest();
       if (repo && pr) {
@@ -69,15 +67,19 @@ export class CodeAnalysisComponent implements OnInit {
         this.recommendations = res[0];
         this.files = res[1];
         this.recommendations.forEach(recommendation => {
-          this.fileContents[`${recommendation.repositoryId}-${recommendation.fileName}`] = this.getFileContent(recommendation.fileName, recommendation.repositoryId);
+          this.fileContents[`${recommendation.repositoryId}-${recommendation.fileName}`] = this.getFileContent(recommendation.fileName, this.selectedRepository().name);
         });
       });
   }
 
-  getFileContent(fileName: string, repositoryId: number): Observable<string> {
-    const repositoryName = this.repositories.find(r => r.id === repositoryId).name;
-    const fileSha = this.files.find(f => f.fileName === fileName).sha;
-    return this.apiService.getPullRequestFileContent(fileName, fileSha, repositoryName);
+  getFileContent(fileName: string, repositoryName: string): Observable<string> {
+    return this.apiService.getFileContent({
+      repositoryName: repositoryName,
+      filePath: fileName,
+      headRef: this.selectedPullRequest().headRef
+    }).pipe(
+      switchMap(encodedContent => Buffer.from(encodedContent).toString())
+    );
   }
 
   getFileContentFromFileContents(repositoryId: number, fileName: string): Observable<string> {

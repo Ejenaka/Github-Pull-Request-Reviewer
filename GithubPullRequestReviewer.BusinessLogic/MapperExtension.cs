@@ -17,6 +17,7 @@ namespace GithubPullRequestReviewer.BusinessLogic
                 Status = (PullRequestStatus)pullRequest.State.Value,
                 LastModifiedDate = pullRequest.UpdatedAt.DateTime,
                 DiffUrl = pullRequest.DiffUrl,
+                HeadRef = pullRequest.Head.Ref,
                 Creator = pullRequest.User.ToDomain(),
                 Repository = repository,
             };

@@ -8,6 +8,7 @@ namespace GithubPullRequestReviewer.Domain.Models
         public int Number { get; set; }
         public string Name { get; set; }
         public string DiffUrl { get; set; }
+        public string HeadRef { get; set; }
         public PullRequestStatus Status { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public User Creator { get; set; }

@@ -4,7 +4,7 @@ import { PullRequestService, ReviewService, UserService } from '../api/pull-requ
 import { AuthService } from './auth.service';
 import { switchMap, map, forkJoin, Observable, from, mergeMap, concatMap } from 'rxjs';
 import { RepositoryModel } from '../models/repository-model';
-import { PullRequest, PullRequestFile, Recommendation, User } from '../api/pull-request/models';
+import { GetFileContentRequest, PullRequest, PullRequestFile, Recommendation, User } from '../api/pull-request/models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -69,23 +69,13 @@ export class ApiService {
     });
   }
 
-  getPullRequestFileContent(filePath: string, fileSha: string, repositoryName: string): Observable<string> {
-    const accessToken = this.authService.getAccessToken();
-    return this.getAuthenticatedUser().pipe(
-      switchMap(user => {
-        const fileUrl = `https://raw.githubusercontent.com/${user.username}/${repositoryName}/${fileSha}/${filePath}`;
-        return this.httpClient.get(fileUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        }) as Observable<string>;
-      })
-    )
-  }
-
   getAuthenticatedUser(): Observable<User> {
     return this.userApiService.apiUsersCurrentGet$Json({
       access_token: this.authService.getAccessToken()
     });
+  }
+
+  getFileContent(getFileRequest: GetFileContentRequest): Observable<string> {
+    return this.userApiService.apiUsersFilesPost$Json({ body: getFileRequest , access_token: this.authService.getAccessToken() });
   }
 }
