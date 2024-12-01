@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { GithubWebhookService } from '../api/event-handler/services';
-import { PullRequestService, ReviewService, UserService } from '../api/pull-request/services';
+import { CommentService, PullRequestService, ReviewService, UserService } from '../api/pull-request/services';
 import { AuthService } from './auth.service';
 import { switchMap, map, forkJoin, Observable, from, mergeMap } from 'rxjs';
 import { RepositoryModel } from '../models/repository-model';
-import { GetFileContentRequest, PullRequest, PullRequestFile, Recommendation, User } from '../api/pull-request/models';
+import { GetFileContentRequest, PullRequest, PullRequestFile, Recommendation, User, Comment } from '../api/pull-request/models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class ApiService {
     private readonly userApiService: UserService,
     private readonly rewievService: ReviewService,
     private readonly webhookApiService: GithubWebhookService,
+    private readonly commentsApiService: CommentService,
     private readonly authService: AuthService,
   ) { }
 
@@ -75,5 +76,9 @@ export class ApiService {
 
   getFileContent(getFileRequest: GetFileContentRequest): Observable<string> {
     return this.userApiService.apiUsersFilesPost$Json({ body: getFileRequest , access_token: this.authService.getAccessToken() });
+  }
+
+  getCommentsForRecommendation(recommendationId: number): Observable<Comment[]> {
+    return this.commentsApiService.apiRecommendationsRecommendationIdCommentsGet$Json({ recommendationId: recommendationId, access_token: this.authService.getAccessToken() });
   }
 }

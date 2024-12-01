@@ -26,3 +26,26 @@
     margin-left: 30px;
     margin-right: 30px;
 }
+.comments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+.comment {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+.user-comment {
+    align-self: flex-end;
+    background-color: #d1f0ff;
+    text-align: right;
+}
+.system-comment {
+    align-self: flex-start;
+    background-color: #f0f0f0;
+    text-align: left;
+}

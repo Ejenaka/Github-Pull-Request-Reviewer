@@ -1,16 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, OnInit, signal } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, effect, OnInit, signal } from '@angular/core';
+import { MatFormField, MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../services/api.service';
-import { PullRequest, PullRequestFile, Recommendation, Repository } from '../../api/pull-request/models';
+import { PullRequest, PullRequestFile, Recommendation, Repository, Comment } from '../../api/pull-request/models';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { HighlightAuto, Highlight } from 'ngx-highlightjs';
+import { HighlightAuto } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { Buffer } from "buffer";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import 'highlight.js/styles/vs.min.css';
+
 
 @Component({
   selector: 'app-code-analysis',
@@ -19,8 +24,11 @@ import 'highlight.js/styles/vs.min.css';
     CommonModule,
     MatSelectModule,
     MatCardModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
     HighlightPlusModule,
-    Highlight,
     HighlightAuto,
     HighlightLineNumbers,
   ],
@@ -32,7 +40,9 @@ export class CodeAnalysisComponent implements OnInit {
   pullRequests: PullRequest[] = [];
   recommendations: Recommendation[] = [];
   files: PullRequestFile[] = [];
+  // commentsForRecommendation: Comment[] = [];
   fileContents: { [key: string]: Observable<string> } = {};
+  commentsForRecommendation: { [key: string]: Comment[] } = {};
   selectedRepository = signal<Repository | null>(null);
   selectedPullRequest = signal<PullRequest | null>(null);
 
@@ -83,6 +93,12 @@ export class CodeAnalysisComponent implements OnInit {
       });
   }
 
+  onRecommendationOpened(recommendationId: number) {
+    this.apiService.getCommentsForRecommendation(recommendationId).subscribe(comments => {
+      this.commentsForRecommendation[recommendationId] = comments;
+    });
+  }
+
   getFileContent(fileName: string, repositoryName: string): Observable<string> {
     return this.apiService.getFileContent({
       repositoryName: repositoryName,
@@ -95,46 +111,5 @@ export class CodeAnalysisComponent implements OnInit {
 
   getFileContentFromFileContents(repositoryId: number, fileName: string): Observable<string> {
     return this.fileContents[`${repositoryId}-${fileName}`];
-  }
-
-  getTestCode(): Observable<string> {
-    const code = `using System;
-      using System.Collections.Generic;
-      using System.Data;
-      using System.Data.Entity;
-      using System.Linq;
-      using System.Net;
-      using System.Web;
-      using System.Web.Mvc;
-      using TestWebApplication.Models;
-
-      namespace TestWebApplication.Controllers
-      {
-          public class UsersController : Controller
-          {
-              private readonly BlogDbContext db = new BlogDbContext();
-
-              public ActionResult Details(int? id)
-              {
-                  return null;
-              
-                  if (id == null)
-                      return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-                  User user = db.Users
-                      .Include(u => u.LikedPosts)
-                      .Include(u => u.Comments)
-                      .Where(u => u.ID == id)
-                      .FirstOrDefault();
-
-                  if (user == null)
-                      return HttpNotFound();
-
-                  return View(user);
-              }
-          }
-      }`;
-
-      return of(code);
   }
 }

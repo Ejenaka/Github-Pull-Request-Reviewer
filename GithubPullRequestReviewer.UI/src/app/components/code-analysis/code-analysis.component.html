@@ -20,19 +20,41 @@
     </form>
     <div class="code-analysis" *ngIf="selectedRepository() && selectedPullRequest()">
         <h4><b>Pull Request {{ selectedPullRequest().number }}</b>: <i>{{ selectedPullRequest().name }}</i></h4>
-        <div class="code-analysis-content">
+        <mat-accordion class="code-analysis-content" multi>
             @for (recommendation of recommendations; track recommendation.id) {
-                <mat-card class="card">
-                    <mat-card-title class="card-title">{{ recommendation.content }}</mat-card-title>
-                    <pre class="card-code">
-                        <code
-                            [highlightAuto]="getFileContentFromFileContents(recommendation.repositoryId, recommendation.fileName) | async"
-                            lineNumbers >
-                        </code>
-                    </pre>
-                </mat-card>
+                <mat-expansion-panel (opened)="onRecommendationOpened(recommendation.id)">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>{{ recommendation.fileName }}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="card">
+                        <div class="card-title">{{ recommendation.content }}</div>
+                        <pre class="card-code">
+                            <code
+                                [highlightAuto]="getFileContentFromFileContents(recommendation.repositoryId, recommendation.fileName) | async"
+                                lineNumbers >
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="comments">
+                        @for (comment of commentsForRecommendation[recommendation.id]; track comment.id) {
+                            <div
+                                class="comment"
+                                [ngClass]="{ 'user-comment': comment.isFromUser, 'system-comment': !comment.isFromUser }">
+                                {{ comment.text }}
+                            </div>
+                        }
+                    </div>
+                    <form class="comments-form">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Leave a comment</mat-label>
+                            <textarea matInput></textarea>
+                        </mat-form-field>
+                        <button mat-raised-button>Submit</button>
+                    </form>
+
+                </mat-expansion-panel>
             }
-        </div>
+        </mat-accordion>
     </div>
 </div>
 
