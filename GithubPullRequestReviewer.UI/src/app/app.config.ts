@@ -15,7 +15,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     provideHighlightOptions({
-      fullLibraryLoader: () => import('highlight.js')
+      fullLibraryLoader: () => import('highlight.js'),
+      lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
     }),
     importProvidersFrom(PullRequestApiModule.forRoot({ rootUrl: 'http://localhost:5124' })),
     importProvidersFrom(EventHandlerApiModule.forRoot({ rootUrl: 'http://localhost:5226' })),

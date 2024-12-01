@@ -22,10 +22,13 @@
         <h4><b>Pull Request {{ selectedPullRequest().number }}</b>: <i>{{ selectedPullRequest().name }}</i></h4>
         <div class="code-analysis-content">
             @for (recommendation of recommendations; track recommendation.id) {
-                <mat-card>
-                    {{ recommendation.content }}
-                    <pre>
-                        <code [highlightAuto]="getFileContentFromFileContents(recommendation.repositoryId, recommendation.fileName) | async" lineNumbers ></code>
+                <mat-card class="card">
+                    <mat-card-title class="card-title">{{ recommendation.content }}</mat-card-title>
+                    <pre class="card-code">
+                        <code
+                            [highlightAuto]="getFileContentFromFileContents(recommendation.repositoryId, recommendation.fileName) | async"
+                            lineNumbers >
+                        </code>
                     </pre>
                 </mat-card>
             }

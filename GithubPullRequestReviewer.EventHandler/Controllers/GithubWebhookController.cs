@@ -19,17 +19,15 @@ public class GithubWebhookController : Controller
 
     [HttpGet]
     [Route("repositories/{repositoryId}/github-webhooks")]
-    [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
-    public async Task<IReadOnlyList<RepositoryHook>> GetAllRepositoryWebhooksAsync(long repositoryId)
+    public async Task<IReadOnlyList<RepositoryHook>> GetAllRepositoryWebhooksAsync([FromHeader(Name = "Access_token")] string accessToken, long repositoryId)
     {
-        return await _githubWebhookService.GetAllRepositoryWebhooksAsync(repositoryId);
+        return await _githubWebhookService.GetAllRepositoryWebhooksAsync(repositoryId, accessToken);
     }
 
     [HttpPost]
     [Route("github-webhooks")]
-    [Authorize(AuthenticationSchemes = "GithubUserAuthenticationScheme")]
-    public async Task CreateWebhookAsync(long repositoryId)
+    public async Task CreateWebhookAsync([FromHeader(Name = "Access_token")] string accessToken, long repositoryId)
     {
-        await _githubWebhookService.CreateWebhookAsync(repositoryId);
+        await _githubWebhookService.CreateWebhookAsync(repositoryId, accessToken);
     }
 }

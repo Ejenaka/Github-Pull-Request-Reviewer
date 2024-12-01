@@ -19,7 +19,7 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
         {
             var pullRequest = await _githubClient.PullRequest.Get(repositoryId, pullRequestNumber);
             var repository = await _repositoryService.GetRepositoryById(repositoryId);
-
+            
             return pullRequest.ToDomain(repository);
         }
 

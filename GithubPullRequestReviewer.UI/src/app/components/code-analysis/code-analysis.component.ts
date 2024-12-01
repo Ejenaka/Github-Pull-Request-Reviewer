@@ -3,12 +3,14 @@ import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../services/api.service';
 import { PullRequest, PullRequestFile, Recommendation, Repository } from '../../api/pull-request/models';
-import { forkJoin, Observable, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { HighlightAuto } from 'ngx-highlightjs';
+import { HighlightAuto, Highlight } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { Buffer } from "buffer";
+
+import 'highlight.js/styles/vs.min.css';
 
 @Component({
   selector: 'app-code-analysis',
@@ -18,6 +20,7 @@ import { Buffer } from "buffer";
     MatSelectModule,
     MatCardModule,
     HighlightPlusModule,
+    Highlight,
     HighlightAuto,
     HighlightLineNumbers,
   ],
@@ -67,7 +70,15 @@ export class CodeAnalysisComponent implements OnInit {
         this.recommendations = res[0];
         this.files = res[1];
         this.recommendations.forEach(recommendation => {
-          this.fileContents[`${recommendation.repositoryId}-${recommendation.fileName}`] = this.getFileContent(recommendation.fileName, this.selectedRepository().name);
+          const fileContent = this.getFileContent(recommendation.fileName, this.selectedRepository().name).pipe(
+            map(fileContent => {
+              const splited = fileContent.split('\n');
+              const section = splited.splice(recommendation.codeLines[0] - 1, recommendation.codeLines[1]);
+              return section.join('\n');
+            }),
+          );
+
+          this.fileContents[`${recommendation.repositoryId}-${recommendation.fileName}`] = fileContent;
         });
       });
   }
@@ -78,11 +89,52 @@ export class CodeAnalysisComponent implements OnInit {
       filePath: fileName,
       headRef: this.selectedPullRequest().headRef
     }).pipe(
-      switchMap(encodedContent => Buffer.from(encodedContent).toString())
+      map(encodedContent => Buffer.from(encodedContent, 'base64').toString())
     );
   }
 
   getFileContentFromFileContents(repositoryId: number, fileName: string): Observable<string> {
     return this.fileContents[`${repositoryId}-${fileName}`];
+  }
+
+  getTestCode(): Observable<string> {
+    const code = `using System;
+      using System.Collections.Generic;
+      using System.Data;
+      using System.Data.Entity;
+      using System.Linq;
+      using System.Net;
+      using System.Web;
+      using System.Web.Mvc;
+      using TestWebApplication.Models;
+
+      namespace TestWebApplication.Controllers
+      {
+          public class UsersController : Controller
+          {
+              private readonly BlogDbContext db = new BlogDbContext();
+
+              public ActionResult Details(int? id)
+              {
+                  return null;
+              
+                  if (id == null)
+                      return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                  User user = db.Users
+                      .Include(u => u.LikedPosts)
+                      .Include(u => u.Comments)
+                      .Where(u => u.ID == id)
+                      .FirstOrDefault();
+
+                  if (user == null)
+                      return HttpNotFound();
+
+                  return View(user);
+              }
+          }
+      }`;
+
+      return of(code);
   }
 }

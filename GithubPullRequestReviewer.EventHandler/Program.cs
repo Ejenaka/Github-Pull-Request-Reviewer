@@ -18,14 +18,17 @@ builder.Services.Configure<ApiBaseUrlsOptions>(builder.Configuration.GetSection(
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<WebhookEventProcessor, PullRequestWebhookEventProcessor>();
-builder.Services.AddScoped(_ => new GitHubClient(new ProductHeaderValue("pull-request-reviewer")));
-builder.Services.AddScoped<ITokenService, GithubTokenService>();
+builder.Services.AddTransient(_ => new GitHubClient(new ProductHeaderValue("pull-request-reviewer"))
+{
+    Credentials = new Credentials(builder.Configuration["GitHubAccessToken"])
+});
+builder.Services.AddTransient<ITokenService, GithubTokenService>();
 builder.Services.AddTransient<IGithubWebhookService, GithubWebhookService>();
 builder.Services.AddTransient<IReviewerApiClient, ReviewerApiClient>(c =>
     new ReviewerApiClient(builder.Configuration.GetSection("ApiBaseUrls")["ReviewerApi"], c.GetRequiredService<ITokenService>()));
 
 builder.Services
-    .AddAuthentication("GithubUserAuthenticationScheme")
+    .AddAuthentication()
     .AddScheme<AuthenticationSchemeOptions, GithubUserAuthenticationHandler>("GithubUserAuthenticationScheme", options => { });
 
 builder.Services.AddEndpointsApiExplorer();

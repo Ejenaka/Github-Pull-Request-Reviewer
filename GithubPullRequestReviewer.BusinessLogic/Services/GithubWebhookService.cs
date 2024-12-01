@@ -15,13 +15,15 @@ public class GithubWebhookService : IGithubWebhookService
         _configuration = configuration;
     }
 
-    public async Task<IReadOnlyList<RepositoryHook>> GetAllRepositoryWebhooksAsync(long repositoryId)
+    public async Task<IReadOnlyList<RepositoryHook>> GetAllRepositoryWebhooksAsync(long repositoryId, string accessToken)
     {
+        _client.Credentials = new Credentials(accessToken);
         return await _client.Repository.Hooks.GetAll(repositoryId);
     }
 
-    public async Task CreateWebhookAsync(long repositoryId)
+    public async Task CreateWebhookAsync(long repositoryId, string accessToken)
     {
+        _client.Credentials = new Credentials(accessToken);
         Dictionary<string, string> newWebhookConfig = new()
         {
             { "content_type", "json" },

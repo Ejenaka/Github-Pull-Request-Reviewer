@@ -23,7 +23,6 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
         public async Task<Repository> GetRepositoryById(long repositoryId)
         {
             var repository = await _githubClient.Repository.Get(repositoryId);
-
             return repository.ToDomain();
         }
         

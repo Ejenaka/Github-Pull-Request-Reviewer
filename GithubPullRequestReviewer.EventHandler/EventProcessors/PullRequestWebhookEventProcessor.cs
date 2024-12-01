@@ -16,7 +16,7 @@ public class PullRequestWebhookEventProcessor : WebhookEventProcessor
 
     protected override async Task ProcessPullRequestWebhookAsync(WebhookHeaders headers, PullRequestEvent pullRequestEvent, PullRequestAction action)
     {
-        if (pullRequestEvent.Action == PullRequestAction.Opened)
+        if (pullRequestEvent.Action == PullRequestAction.Opened || pullRequestEvent.Action == PullRequestAction.Synchronize)
         {
             await _reviewerApiClient.ReviewPulRequestAsync(pullRequestEvent.Repository.Id, pullRequestEvent.PullRequest.Number);
         }

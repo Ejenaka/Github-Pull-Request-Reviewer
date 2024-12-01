@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { GithubWebhookService } from '../api/event-handler/services';
 import { PullRequestService, ReviewService, UserService } from '../api/pull-request/services';
 import { AuthService } from './auth.service';
-import { switchMap, map, forkJoin, Observable, from, mergeMap, concatMap } from 'rxjs';
+import { switchMap, map, forkJoin, Observable, from, mergeMap } from 'rxjs';
 import { RepositoryModel } from '../models/repository-model';
 import { GetFileContentRequest, PullRequest, PullRequestFile, Recommendation, User } from '../api/pull-request/models';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,6 @@ export class ApiService {
     private readonly userApiService: UserService,
     private readonly rewievService: ReviewService,
     private readonly webhookApiService: GithubWebhookService,
-    private readonly httpClient: HttpClient,
     private readonly authService: AuthService,
   ) { }
 

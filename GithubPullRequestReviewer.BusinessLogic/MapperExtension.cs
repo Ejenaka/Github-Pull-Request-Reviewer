@@ -14,7 +14,6 @@ namespace GithubPullRequestReviewer.BusinessLogic
                 Id = pullRequest.Id,
                 Number = pullRequest.Number,
                 Name = pullRequest.Title,
-                HeadRef = pullRequest.Head.Ref,
                 Status = (PullRequestStatus)pullRequest.State.Value,
                 LastModifiedDate = pullRequest.UpdatedAt.DateTime,
                 DiffUrl = pullRequest.DiffUrl,

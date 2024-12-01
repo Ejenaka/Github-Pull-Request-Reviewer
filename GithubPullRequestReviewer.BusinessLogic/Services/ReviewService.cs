@@ -23,6 +23,11 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
                 .Where(r => r.RepositoryId == repositoryId && r.PullRequestNumber == pullRequestNumber)
                 .ToListAsync();
 
+            if (recommendations.Count == 0)
+            {
+                return null;
+            }
+
             var recommendationsGrouped = recommendations
                 .Select(r => r.ToDomain())
                 .GroupBy(r => r.Type);

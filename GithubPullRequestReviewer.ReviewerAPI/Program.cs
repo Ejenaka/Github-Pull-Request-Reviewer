@@ -17,7 +17,7 @@ builder.Services.Configure<GithubOAuthAppOptions>(builder.Configuration.GetSecti
 builder.Services.AddDbContext<PullRequestReviewerDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 
-builder.Services.AddScoped(_ => new GitHubClient(new ProductHeaderValue("pull-request-reviewer")));
+builder.Services.AddScoped(c => new GitHubClient(new ProductHeaderValue("pull-request-reviewer")));
 builder.Services.AddScoped<ITokenService, GithubTokenService>();
 builder.Services.AddTransient<IGenerativeModelProvider, ChatGptModelProvider>(_ => new ChatGptModelProvider(builder.Configuration["OpenAI:ApiKey"]));
 builder.Services.AddTransient<IPullRequestReviewer, PullRequestReviewer>();

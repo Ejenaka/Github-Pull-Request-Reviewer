@@ -32,8 +32,12 @@ public class PullRequestReviewer : IPullRequestReviewer
     {
         var pullRequestDetails = await _pullRequestApiClient.GetPullRequestAsync(repositoryId, pullRequestNumber);
         var pullRequestDiffContent = await _pullRequestApiClient.GetPullRequestDiffContentAsync(repositoryId, pullRequestNumber);
+        var previousPullRequestReviewResult = await _reviewApiClient.GetPullRequestReviewResultAsync(repositoryId, pullRequestNumber);
 
-        var reviewRequestPrompt = Prompts.BuildPromptForReview(pullRequestDetails.Name, pullRequestDiffContent);
+        var  reviewRequestPrompt = previousPullRequestReviewResult != null ?
+            Prompts.BuildPromptForReview(pullRequestDetails.Name, pullRequestDiffContent, previousPullRequestReviewResult) : 
+            Prompts.BuildPromptForReview(pullRequestDetails.Name, pullRequestDiffContent);
+
         var modelResponse = await _generativeModelProvider.SendMessageAsync(reviewRequestPrompt);
             
         if (string.IsNullOrEmpty(modelResponse))

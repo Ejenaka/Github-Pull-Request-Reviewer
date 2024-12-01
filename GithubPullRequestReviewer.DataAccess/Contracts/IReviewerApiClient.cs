@@ -1,4 +1,3 @@
-using GithubPullRequestReviewer.DataAccess.ApiClients;
 using GithubPullRequestReviewer.DataAccess.Responses;
 
 namespace GithubPullRequestReviewer.DataAccess.Contracts;

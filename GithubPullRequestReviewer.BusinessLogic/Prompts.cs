@@ -1,4 +1,7 @@
-﻿namespace GithubPullRequestReviewer.BusinessLogic
+﻿using System.Text.Json;
+using GithubPullRequestReviewer.Domain.Models;
+
+namespace GithubPullRequestReviewer.BusinessLogic
 {
     public static class Prompts
     {
@@ -25,12 +28,16 @@
             Each chunk is prepended by a header enclosed within @@ symbols in git diff. The content of the header is a summary of changes made to the file.
             Example diff chunk header: @@ -34,6 +34,8 @@
             In this header example, 6 lines have been extracted starting from line number 34. Additionally, 8 lines have been added starting at line number 34.
+            
+            Also, this prompt could contain your existing analysis on this Pull Request.
+            So, please, do not response on existing code analysis, that already are in recommendations object.
             -------------------
 
             Pull Request Title: %PR_TITLE%
             Pull Request diff:
-
             %PR_DIFF%
+            Existing code analysis:
+            %RECOMMENDATION%
             """;
 
         public static readonly string CommentPrompt = """
@@ -52,7 +59,7 @@
         public static readonly string CommentPromptModelResponse =
             "Of course! Provide me your commend and I will response you using my best analytical possibilities.";
 
-        public static readonly string CommentRequestTemplate =
+        private static readonly string CommentRequestTemplate =
             """
             Your review information for particular file:
             File name: %FILE NAME%
@@ -63,17 +70,20 @@
             %COMMENT%
             """;
 
-        public static readonly string PullRequestTitlePlaceholder = "%PR_TITLE%";
-        public static readonly string PullRequestDiffPlaceholder = "%PR_DIFF%";
-        public static readonly string FileNamePlaceholder = "%FILE NAME%";
-        public static readonly string RecommendationContentPlaceholder = "%RECOMMENDATION%";
-        public static readonly string CommentPlaceholder = "%COMMENT%";
+        private static readonly string PullRequestTitlePlaceholder = "%PR_TITLE%";
+        private static readonly string PullRequestDiffPlaceholder = "%PR_DIFF%";
+        private static readonly string FileNamePlaceholder = "%FILE NAME%";
+        private static readonly string RecommendationContentPlaceholder = "%RECOMMENDATION%";
+        private static readonly string CommentPlaceholder = "%COMMENT%";
 
-        public static string BuildPromptForReview(string pullRequestTitle, string pullRequestDiff)
+        public static string BuildPromptForReview(string pullRequestTitle, string pullRequestDiff, ReviewResult previousReview = null)
         {
+            var previousReviewJson = JsonSerializer.Serialize(previousReview);
+            
             return ReviewPromptTemplate
                 .Replace(PullRequestTitlePlaceholder, pullRequestTitle)
-                .Replace(PullRequestDiffPlaceholder, pullRequestDiff);
+                .Replace(PullRequestDiffPlaceholder, pullRequestDiff)
+                .Replace(RecommendationContentPlaceholder, previousReviewJson);
         }
 
         public static string BuildCommentRequest(string comment, string fileName, string recommendationContent)

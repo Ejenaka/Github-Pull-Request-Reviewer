@@ -14,7 +14,7 @@ namespace GithubPullRequestReviewer.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost:5432;Username=postgres;Password=qwerty;Database=GithubPullRequestReviewer");
+            optionsBuilder.UseNpgsql("Host=localhost:5433;Username=postgres;Password=qwerty;Database=GithubPullRequestReviewer");
         }
     }
 }

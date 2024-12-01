@@ -23,7 +23,7 @@ namespace GithubPullRequestReviewer.EventHandler.Authorization
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var token = Request.Headers["access_token"].FirstOrDefault();
+            var token = Request.Headers["Access_token"].FirstOrDefault();
 
             if (await _tokenService.ValidateAndSetTokenAsync(token))
             {
@@ -34,10 +34,8 @@ namespace GithubPullRequestReviewer.EventHandler.Authorization
 
                 return AuthenticateResult.Success(ticket);
             }
-            else
-            {
-                return AuthenticateResult.Fail("Invalid token.");
-            }
+
+            return AuthenticateResult.Fail("Invalid token.");
         }
     }
 }
