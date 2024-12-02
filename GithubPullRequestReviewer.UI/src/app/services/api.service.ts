@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 import { switchMap, map, forkJoin, Observable, from, mergeMap } from 'rxjs';
 import { RepositoryModel } from '../models/repository-model';
 import { GetFileContentRequest, PullRequest, PullRequestFile, Recommendation, User, Comment } from '../api/pull-request/models';
+import { CreateCommentRequest } from '../api/reviewer/models';
+import { ReviewerService } from '../api/reviewer/services';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,7 @@ export class ApiService {
     private readonly rewievService: ReviewService,
     private readonly webhookApiService: GithubWebhookService,
     private readonly commentsApiService: CommentService,
+    private readonly reviewerApiService: ReviewerService,
     private readonly authService: AuthService,
   ) { }
 
@@ -80,5 +83,12 @@ export class ApiService {
 
   getCommentsForRecommendation(recommendationId: number): Observable<Comment[]> {
     return this.commentsApiService.apiRecommendationsRecommendationIdCommentsGet$Json({ recommendationId: recommendationId, access_token: this.authService.getAccessToken() });
+  }
+
+  createCommentForRecommendation(createCommentRequest: CreateCommentRequest): Observable<Comment> {
+    return this.reviewerApiService.apiCommentsPost$Json({
+      body: createCommentRequest,
+      access_token: this.authService.getAccessToken()
+    });
   }
 }

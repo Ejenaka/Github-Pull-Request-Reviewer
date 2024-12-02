@@ -1,0 +1,11 @@
+<div *ngIf="recommendations?.length !== 0" class="status-container">
+    @if (isIssuePresented) {
+        <mat-icon class="error" [matBadge]="getIssuesCount()">error</mat-icon>
+    }
+    @if (isVulnerabilityPresented) {
+        <mat-icon class="warning" [matBadge]="getVulnerabilitiesCount()">warning</mat-icon>
+    }
+    @if (isOptimizationPresented || isEnhancmentPresented || isBestPractisePresented) {
+        <mat-icon color="info" [matBadge]="getOptimizationAndEnhancmentAndBestPractiseCount()">info</mat-icon>
+    }
+</div>

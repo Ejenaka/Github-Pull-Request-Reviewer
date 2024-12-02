@@ -7,6 +7,8 @@
     }
 }
 .code-analysis {
+    padding-left: 100px;
+    padding-right: 100px;
     h4 {
         font-size: 20px;
     }
@@ -23,14 +25,24 @@
     gap: 10px;
 }
 .card {
-    margin-left: 30px;
-    margin-right: 30px;
+    pre {
+        margin: 0;
+    }
 }
 .comments {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 20px;
+    margin-bottom: 10px;
+}
+.no-comments {
+    color: #5f6368;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 200;
+    padding-top: 70px;
+    padding-bottom: 25px;
 }
 .comment {
     max-width: 60%;
@@ -38,6 +50,25 @@
     border-radius: 10px;
     font-size: 14px;
     line-height: 1.4;
+}
+.comments-title {
+    display: block;
+    font-size: 20px;
+
+    &:after {
+        border: 1px black solid;
+    }
+}
+.comments-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    place-self: end;
+
+    button {
+        width: 100px;
+        place-self: end;
+    }
 }
 .user-comment {
     align-self: flex-end;
@@ -48,4 +79,13 @@
     align-self: flex-start;
     background-color: #f0f0f0;
     text-align: left;
+}
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    place-self: end;
+}
+.system-avatar {
+    color: #5f6368;
 }

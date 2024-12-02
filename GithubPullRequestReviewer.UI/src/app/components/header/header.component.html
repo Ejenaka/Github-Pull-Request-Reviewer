@@ -1,9 +1,9 @@
 <mat-toolbar class="header">
   <span class="project-title">AI Reviewer</span>
   <span class="spacer"></span>
-  <div class="user-info">
-    <img class="user-avatar" [src]="(user | async).avatarUrl">
-    <span class="user-name">{{ (user | async).username }}</span>
+  <div *ngIf="user | async as userData" class="user-info">
+    <img class="user-avatar" [src]="userData.avatarUrl">
+    <span class="user-name">{{ userData.username }}</span>
     <button (click)="onlogOutClick()" mat-icon-button aria-label="Log Out">
       <mat-icon>logout</mat-icon>
     </button>

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, OnInit, signal } from '@angular/core';
-import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../services/api.service';
-import { PullRequest, PullRequestFile, Recommendation, Repository, Comment } from '../../api/pull-request/models';
+import { PullRequest, PullRequestFile, Recommendation, Repository, Comment, User } from '../../api/pull-request/models';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { HighlightAuto } from 'ngx-highlightjs';
@@ -10,12 +10,13 @@ import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { Buffer } from "buffer";
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 import 'highlight.js/styles/vs.min.css';
-
 
 @Component({
   selector: 'app-code-analysis',
@@ -27,7 +28,9 @@ import 'highlight.js/styles/vs.min.css';
     MatExpansionModule,
     MatButtonModule,
     MatInputModule,
+    MatDividerModule,
     MatFormFieldModule,
+    MatIconModule,
     HighlightPlusModule,
     HighlightAuto,
     HighlightLineNumbers,
@@ -36,19 +39,18 @@ import 'highlight.js/styles/vs.min.css';
   styleUrl: './code-analysis.component.scss'
 })
 export class CodeAnalysisComponent implements OnInit {
+  selectedRepository = signal<Repository | null>(null);
+  selectedPullRequest = signal<PullRequest | null>(null);
+  currentUser: User;
   repositories: Repository[] = [];
   pullRequests: PullRequest[] = [];
   recommendations: Recommendation[] = [];
   files: PullRequestFile[] = [];
-  // commentsForRecommendation: Comment[] = [];
   fileContents: { [key: string]: Observable<string> } = {};
-  commentsForRecommendation: { [key: string]: Comment[] } = {};
-  selectedRepository = signal<Repository | null>(null);
-  selectedPullRequest = signal<PullRequest | null>(null);
+  commentsForRecommendation: { [key: number]: Comment[] } = {};
+  userComments: { [key: number]: string } = {};
 
-  constructor(
-    private readonly apiService: ApiService) {
-
+  constructor(private readonly apiService: ApiService) {
     effect(() => {
       const repo = this.selectedRepository();
       if (repo) {
@@ -68,6 +70,9 @@ export class CodeAnalysisComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getUserRepositories()
       .subscribe(repos => this.repositories = repos.filter(r => r.configured).map(r => r.repository));
+
+    this.apiService.getAuthenticatedUser()
+      .subscribe(user => this.currentUser = user);
   }
 
   onRepositorySelected(repoId: number) {
@@ -96,6 +101,25 @@ export class CodeAnalysisComponent implements OnInit {
   onRecommendationOpened(recommendationId: number) {
     this.apiService.getCommentsForRecommendation(recommendationId).subscribe(comments => {
       this.commentsForRecommendation[recommendationId] = comments;
+    });
+  }
+
+  onCommentInputChanged(event: Event, recommendationId: number) {
+    const value = (event.target as HTMLTextAreaElement).value;
+    this.userComments[recommendationId] = value;
+    console.log(this.userComments[recommendationId]);
+  }
+
+  onCommentSubmitButtonClick(recommendationId: number) {
+    const userComment = this.userComments[recommendationId];
+    this.commentsForRecommendation[recommendationId].push({ recommendationId: recommendationId, text: userComment, isFromUser: true });
+
+    this.apiService.createCommentForRecommendation({
+      recommendationId: recommendationId,
+      isFromUser: true,
+      text: userComment
+    }).subscribe(responseComment => {
+      this.commentsForRecommendation[recommendationId].push(responseComment);
     });
   }
 

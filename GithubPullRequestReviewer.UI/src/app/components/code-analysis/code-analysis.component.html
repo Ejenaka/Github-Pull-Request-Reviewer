@@ -35,23 +35,32 @@
                             </code>
                         </pre>
                     </div>
-                    <div class="comments">
-                        @for (comment of commentsForRecommendation[recommendation.id]; track comment.id) {
-                            <div
-                                class="comment"
-                                [ngClass]="{ 'user-comment': comment.isFromUser, 'system-comment': !comment.isFromUser }">
-                                {{ comment.text }}
-                            </div>
-                        }
-                    </div>
-                    <form class="comments-form">
-                        <mat-form-field class="example-full-width">
+                    <h4 class="comments-title">Comments</h4>
+                    <mat-divider></mat-divider>
+                    @if (commentsForRecommendation[recommendation.id]?.length === 0) {
+                        <h3 class="no-comments">There is no comments yet</h3>
+                    } @else {
+                        <div class="comments">
+                            @for (comment of commentsForRecommendation[recommendation.id]; track comment.id) {
+                                @if (comment.isFromUser) {
+                                    <img class="user-avatar" [src]="currentUser.avatarUrl" >
+                                } @else {
+                                    <mat-icon class="system-avatar">smart_toy</mat-icon>
+                                }
+                                <div class="comment"
+                                    [ngClass]="{ 'user-comment': comment.isFromUser, 'system-comment': !comment.isFromUser }">
+                                    {{ comment.text }}
+                                </div>
+                            }
+                        </div>
+                    }
+                    <form (submit)="$event.preventDefault(); onCommentSubmitButtonClick(recommendation.id)" class="comments-form">
+                        <mat-form-field>
                             <mat-label>Leave a comment</mat-label>
-                            <textarea matInput></textarea>
+                            <textarea (input)="onCommentInputChanged($event, recommendation.id)" matInput></textarea>
                         </mat-form-field>
-                        <button mat-raised-button>Submit</button>
+                        <button [disabled]="!userComments[recommendation.id]" mat-raised-button>Submit</button>
                     </form>
-
                 </mat-expansion-panel>
             }
         </mat-accordion>

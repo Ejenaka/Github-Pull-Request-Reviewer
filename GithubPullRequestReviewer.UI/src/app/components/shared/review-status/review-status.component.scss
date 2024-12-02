@@ -1,0 +1,18 @@
+.status-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+
+    * {
+        size: 14px;
+    }
+}
+.error {
+    color: red;
+}
+.warning {
+    color: yellow;
+}
+.info {
+    color: #5985E1;
+}

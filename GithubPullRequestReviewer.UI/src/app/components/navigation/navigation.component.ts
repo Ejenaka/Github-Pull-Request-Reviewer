@@ -29,7 +29,6 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRouter.data.subscribe(data => {
-      console.log(data);
       this.pageTitle = data['pageTitle'];
     })
   }
