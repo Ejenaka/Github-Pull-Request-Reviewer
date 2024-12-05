@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, OnInit, signal } from '@angular/core';
+import { Component, effect, OnInit, signal, viewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../services/api.service';
-import { PullRequest, PullRequestFile, Recommendation, Repository, Comment, User } from '../../api/pull-request/models';
+import { PullRequest, PullRequestFile, Recommendation, Repository, Comment, User, RecommendationStatus } from '../../api/pull-request/models';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { HighlightAuto } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { Buffer } from "buffer";
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +17,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import 'highlight.js/styles/vs.min.css';
+import { ReviewStatusComponent } from "../shared/review-status/review-status.component";
 
 @Component({
   selector: 'app-code-analysis',
@@ -34,11 +35,13 @@ import 'highlight.js/styles/vs.min.css';
     HighlightPlusModule,
     HighlightAuto,
     HighlightLineNumbers,
+    ReviewStatusComponent
   ],
   templateUrl: './code-analysis.component.html',
   styleUrl: './code-analysis.component.scss'
 })
 export class CodeAnalysisComponent implements OnInit {
+  accordion = viewChild.required(MatAccordion);
   selectedRepository = signal<Repository | null>(null);
   selectedPullRequest = signal<PullRequest | null>(null);
   currentUser: User;
@@ -102,6 +105,11 @@ export class CodeAnalysisComponent implements OnInit {
     this.apiService.getCommentsForRecommendation(recommendationId).subscribe(comments => {
       this.commentsForRecommendation[recommendationId] = comments;
     });
+  }
+
+  onRecommendationResolved(recommendation: Recommendation) {
+    recommendation.status = 1;
+    this.apiService.updateRecommendationStatus(recommendation).subscribe(() => this.accordion().closeAll());
   }
 
   onCommentInputChanged(event: Event, recommendationId: number) {

@@ -19,12 +19,18 @@ import { Observable } from 'rxjs';
 })
 export class ReviewStatusComponent implements OnInit {
   @Input('recommendations$') recommendations$: Observable<Recommendation[]>;
-  recommendations: Recommendation[];
+  @Input() set singleRecommendation(recommendation: Recommendation) {
+    this.recommendations.push(recommendation);
+  }
+
+  recommendations: Recommendation[] = [];
 
   ngOnInit(): void {
-    this.recommendations$.subscribe(recommendations => {
-      this.recommendations = recommendations;
-    });
+    if (this.recommendations$) {
+      this.recommendations$.subscribe(recommendations => {
+        this.recommendations = recommendations;
+      });
+    }
   }
 
   isIssuePresented(): boolean {

@@ -21,8 +21,6 @@ builder.Services.AddScoped(c => new GitHubClient(new ProductHeaderValue("pull-re
 builder.Services.AddScoped<ITokenService, GithubTokenService>();
 builder.Services.AddTransient<IGenerativeModelProvider, ChatGptModelProvider>(_ => new ChatGptModelProvider(builder.Configuration["OpenAI:ApiKey"]));
 builder.Services.AddTransient<IPullRequestReviewer, PullRequestReviewer>();
-// Mock for testing purposes
-//builder.Services.AddTransient<IPullRequestReviewer, PullRequestReviewerMock>();
 
 builder.Services.AddTransient<IPullRequestApiClient, PullRequestApiClient>(c =>
     new PullRequestApiClient(builder.Configuration.GetSection("ApiBaseUrls")["PullRequestApi"], c.GetRequiredService<ITokenService>()));

@@ -10,7 +10,7 @@
                     </div>
                     {{ pr.name }}
                 </div>
-                <app-review-status [recommendations$]="getRecommendationsForPullRequest(pr.repository.id, pr.number)"></app-review-status>
+                <app-review-status class="review-status" [recommendations$]="getRecommendationsForPullRequest(pr.repository.id, pr.number)"></app-review-status>
             </mat-card-content>
         </mat-card>
     }

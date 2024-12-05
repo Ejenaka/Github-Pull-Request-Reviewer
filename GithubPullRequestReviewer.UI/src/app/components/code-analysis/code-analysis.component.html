@@ -15,16 +15,19 @@
                 @for (pr of pullRequests; track pr.number) {
                   <mat-option [value]="pr">{{pr.name}}</mat-option>
                 }
-              </mat-select>
+            </mat-select>
         </mat-form-field>
     </form>
     <div class="code-analysis" *ngIf="selectedRepository() && selectedPullRequest()">
         <h4><b>Pull Request {{ selectedPullRequest().number }}</b>: <i>{{ selectedPullRequest().name }}</i></h4>
         <mat-accordion class="code-analysis-content" multi>
             @for (recommendation of recommendations; track recommendation.id) {
-                <mat-expansion-panel (opened)="onRecommendationOpened(recommendation.id)">
+                <mat-expansion-panel [disabled]="recommendation.status === 1" (opened)="onRecommendationOpened(recommendation.id)">
                     <mat-expansion-panel-header>
                         <mat-panel-title>{{ recommendation.fileName }}</mat-panel-title>
+                        <mat-panel-description>
+                            <app-review-status class="review-status" [singleRecommendation]="recommendation" ></app-review-status>
+                        </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="card">
                         <div class="card-title">{{ recommendation.content }}</div>
@@ -34,6 +37,7 @@
                                 lineNumbers >
                             </code>
                         </pre>
+                        <button mat-raised-button (click)="onRecommendationResolved(recommendation)">Resolve</button>
                     </div>
                     <h4 class="comments-title">Comments</h4>
                     <mat-divider></mat-divider>

@@ -16,7 +16,7 @@ export class ApiService {
   constructor(
     private readonly pullRequestsApiService: PullRequestService,
     private readonly userApiService: UserService,
-    private readonly rewievService: ReviewService,
+    private readonly rewievApiService: ReviewService,
     private readonly webhookApiService: GithubWebhookService,
     private readonly commentsApiService: CommentService,
     private readonly reviewerApiService: ReviewerService,
@@ -56,7 +56,7 @@ export class ApiService {
   }
 
   getRecommendations(repoId: number, pullRequestNumber: number): Observable<Recommendation[]> {
-    return this.rewievService.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json({
+    return this.rewievApiService.apiRepositoriesRepositoryIdPullRequestsPullRequestNumberRecommendationsGet$Json({
       repositoryId: repoId,
       pullRequestNumber: pullRequestNumber,
       access_token: this.authService.getAccessToken()
@@ -78,7 +78,7 @@ export class ApiService {
   }
 
   getFileContent(getFileRequest: GetFileContentRequest): Observable<string> {
-    return this.userApiService.apiUsersFilesPost$Json({ body: getFileRequest , access_token: this.authService.getAccessToken() });
+    return this.userApiService.apiUsersFilesPost$Json({ body: getFileRequest, access_token: this.authService.getAccessToken() });
   }
 
   getCommentsForRecommendation(recommendationId: number): Observable<Comment[]> {
@@ -88,6 +88,13 @@ export class ApiService {
   createCommentForRecommendation(createCommentRequest: CreateCommentRequest): Observable<Comment> {
     return this.reviewerApiService.apiCommentsPost$Json({
       body: createCommentRequest,
+      access_token: this.authService.getAccessToken()
+    });
+  }
+
+  updateRecommendationStatus(recommendationUpdateStatusRequest: Recommendation) {
+    return this.rewievApiService.apiRecommendationsPatch({
+      body: recommendationUpdateStatusRequest,
       access_token: this.authService.getAccessToken()
     });
   }

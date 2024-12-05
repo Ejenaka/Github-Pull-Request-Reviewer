@@ -30,4 +30,11 @@ public class GithubWebhookController : Controller
     {
         await _githubWebhookService.CreateWebhookAsync(repositoryId, accessToken);
     }
+    
+    [HttpDelete]
+    [Route("github-webhooks")]
+    public async Task DeleteWebhookAsync([FromHeader(Name = "Access_token")] string accessToken, long repositoryId)
+    {
+        await _githubWebhookService.DeleteWebhookAsync(repositoryId, accessToken);
+    }
 }

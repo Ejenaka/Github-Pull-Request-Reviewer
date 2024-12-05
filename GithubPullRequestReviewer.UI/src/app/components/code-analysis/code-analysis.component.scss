@@ -25,8 +25,16 @@
     gap: 10px;
 }
 .card {
+    display: flex;
+    flex-direction: column;
+
     pre {
         margin: 0;
+    }
+
+    button {
+        width: 100px;
+        align-self: flex-end;
     }
 }
 .comments {
@@ -50,6 +58,7 @@
     border-radius: 10px;
     font-size: 14px;
     line-height: 1.4;
+    white-space: pre-line;
 }
 .comments-title {
     display: block;

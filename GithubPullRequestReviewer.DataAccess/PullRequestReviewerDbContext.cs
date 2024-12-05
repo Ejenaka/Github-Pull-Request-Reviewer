@@ -12,9 +12,10 @@ namespace GithubPullRequestReviewer.DataAccess
         
         public PullRequestReviewerDbContext(DbContextOptions<PullRequestReviewerDbContext> options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost:5433;Username=postgres;Password=qwerty;Database=GithubPullRequestReviewer");
-        }
+        // Used for EF migrations
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // {
+        //     optionsBuilder.UseNpgsql("Host=localhost:5432;Username=postgres;Password=qwerty;Database=GithubPullRequestReviewer");
+        // }
     }
 }

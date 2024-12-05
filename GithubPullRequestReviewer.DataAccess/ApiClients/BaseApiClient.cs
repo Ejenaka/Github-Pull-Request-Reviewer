@@ -16,6 +16,7 @@ public abstract class BaseApiClient
 
     protected async Task<T> RunGetRequestAsync<T>(string relativeUrl)
     {
+        var response = await _httpClient.GetFromJsonAsync<T>(relativeUrl);
         return await _httpClient.GetFromJsonAsync<T>(relativeUrl);
     }
 

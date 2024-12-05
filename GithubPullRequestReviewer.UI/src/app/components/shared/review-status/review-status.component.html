@@ -1,11 +1,23 @@
 <div *ngIf="recommendations?.length !== 0" class="status-container">
-    @if (isIssuePresented) {
-        <mat-icon class="error" [matBadge]="getIssuesCount()">error</mat-icon>
+    @if (isIssuePresented()) {
+        @if (recommendations?.length === 1) {
+            <mat-icon class="error">error</mat-icon>
+        } @else {
+            <mat-icon class="error" [matBadge]="getIssuesCount()">error</mat-icon>
+        }
     }
-    @if (isVulnerabilityPresented) {
-        <mat-icon class="warning" [matBadge]="getVulnerabilitiesCount()">warning</mat-icon>
+    @if (isVulnerabilityPresented()) {
+        @if (recommendations?.length === 1) {
+            <mat-icon class="warning">warning</mat-icon>
+        } @else {
+            <mat-icon class="warning" [matBadge]="getVulnerabilitiesCount()">warning</mat-icon>
+        }
     }
-    @if (isOptimizationPresented || isEnhancmentPresented || isBestPractisePresented) {
-        <mat-icon color="info" [matBadge]="getOptimizationAndEnhancmentAndBestPractiseCount()">info</mat-icon>
+    @if (isOptimizationPresented() || isEnhancmentPresented() || isBestPractisePresented()) {
+        @if (recommendations?.length === 1) {
+            <mat-icon class="info">info</mat-icon>
+        } @else {
+            <mat-icon class="info" [matBadge]="getOptimizationAndEnhancmentAndBestPractiseCount()">info</mat-icon>
+        }
     }
 </div>

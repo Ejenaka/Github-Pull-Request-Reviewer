@@ -1,6 +1,8 @@
 .status-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 5px;
 
     * {
@@ -8,11 +10,11 @@
     }
 }
 .error {
-    color: red;
+    color: #8b1a10;
 }
 .warning {
-    color: yellow;
+    color: #f19e39;
 }
 .info {
-    color: #5985E1;
+    color: #5985e1;
 }

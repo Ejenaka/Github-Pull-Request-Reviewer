@@ -6,4 +6,5 @@ public interface IGithubWebhookService
 {
     Task<IReadOnlyList<RepositoryHook>> GetAllRepositoryWebhooksAsync(long repositoryId, string accessToken);
     Task CreateWebhookAsync(long repositoryId, string accessToken);
+    Task DeleteWebhookAsync(long repositoryId, string accessToken);
 }

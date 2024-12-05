@@ -25,7 +25,7 @@ namespace GithubPullRequestReviewer.BusinessLogic.Services
 
             if (recommendations.Count == 0)
             {
-                return null;
+                return new ReviewResult();
             }
 
             var recommendationsGrouped = recommendations
