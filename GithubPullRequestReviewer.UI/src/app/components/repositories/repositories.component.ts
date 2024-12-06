@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -30,30 +30,22 @@ export class RepositoriesComponent implements OnInit {
   constructor(
     private readonly apiService: ApiService,
     private readonly webhookApiService: GithubWebhookService,
-    private readonly authService: AuthService,
-    private readonly stateService: StateService,
-    private readonly cdRef: ChangeDetectorRef) { }
+    private readonly authService: AuthService) { }
 
   ngOnInit(): void {
     this.apiService.getUserRepositories()
       .subscribe(repos => {
         this.repositoriesWithHook = repos.sort((a, b) => +!!b.webhook - +!!a.webhook);
-        this.stateService.repositories = this.repositoriesWithHook;
       });
   }
 
   onConfigureToggleChanged(data: MatSlideToggleChange) {
-    const repositoryId = +data.source.id;
-    const repositoryWithHook = this.repositoriesWithHook.find(x => x.repository.id === repositoryId);
-    if (!repositoryWithHook) {
-      throw new Error(`Repository ${repositoryId} not found`);
-    }
-
     if (data.checked) {
+      const repositoryId = +data.source.id;
+      const repositoryWithHook = this.repositoriesWithHook.find(x => x.repository.id === repositoryId);
       this.webhookApiService.apiGithubWebhooksPost({ repositoryId: repositoryId, access_token: this.authService.getAccessToken() })
         .subscribe(() => {
-          repositoryWithHook!.configured = true;
-          this.cdRef.detectChanges();
+          repositoryWithHook.configured = true;
         });
     }
   }
